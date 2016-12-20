@@ -72,7 +72,7 @@ def init():
     else:
         if cookie_file.exists():
             tracker_cookies = pickle.load(cookie_file.open('rb'))
-            if not tracker_cookies:
+            if tracker_cookies is not None and len(tracker_cookies) > 0:
                 valid = yield from check_cookies()
                 if valid:
                     logger.debug("Using stored cookies as they are still valid")
@@ -93,7 +93,7 @@ def init():
 
         # store cookies if login successful
         if 'logout.php?auth=' in data:
-            if tracker_cookies is not None:
+            if tracker_cookies is not None and len(tracker_cookies) > 0:
                 tracker_cookies.clear()
 
             logger.debug("Fetched user cookies")
@@ -146,7 +146,7 @@ def route(request):
 def find_torrent(torrent_id):
     torrent_link = None
 
-    if not tracker_cookies:
+    if tracker_cookies is None or len(tracker_cookies) <= 0:
         logger.error("There were no user cookies stored, ignoring....")
         return torrent_link
 
@@ -216,7 +216,7 @@ def download_torrent(torrent_id, torrent_link):
 @asyncio.coroutine
 def check_cookies():
     valid = False
-    if not tracker_cookies:
+    if tracker_cookies is None or len(tracker_cookies) <= 0:
         return valid
 
     with ClientSession(cookies=tracker_cookies) as session:
