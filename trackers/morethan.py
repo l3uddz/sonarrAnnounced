@@ -20,7 +20,8 @@ irc_port = 6667
 irc_channel = "#announce"
 irc_tls = False
 irc_tls_verify = False
-tracker_cookies = None
+
+tracker_cookies = {}
 tracker_user = None
 tracker_pass = None
 
@@ -71,7 +72,7 @@ def init():
     else:
         if cookie_file.exists():
             tracker_cookies = pickle.load(cookie_file.open('rb'))
-            if tracker_cookies is not None:
+            if not tracker_cookies:
                 valid = yield from check_cookies()
                 if valid:
                     logger.debug("Using stored cookies as they are still valid")
@@ -92,8 +93,15 @@ def init():
 
         # store cookies if login successful
         if 'logout.php?auth=' in data:
-            tracker_cookies = session.cookies
+            if tracker_cookies is not None:
+                tracker_cookies.clear()
+
             logger.debug("Fetched user cookies")
+            for cookie in session.cookie_jar:
+                if cookie.value is not None:
+                    logger.debug("Storing cookie %s: %s", cookie.key, cookie.value)
+                    tracker_cookies[cookie.key] = cookie.value
+
             pickle.dump(tracker_cookies, cookie_file.open('wb'))
             loaded = True
         else:

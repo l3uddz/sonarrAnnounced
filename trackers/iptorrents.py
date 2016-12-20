@@ -20,7 +20,8 @@ irc_port = 6667
 irc_channel = "#ipt.announce"
 irc_tls = False
 irc_tls_verify = False
-tracker_cookies = None
+
+tracker_cookies = {}
 tracker_user = None
 tracker_pass = None
 
@@ -45,7 +46,6 @@ def parse(announcement):
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
         download_link = "http://{}:{}/{}/{}".format(cfg['server.host'], cfg['server.port'], name.lower(), torrent_id)
-
         approved = yield from sonarr.wanted(torrent_title, download_link)
         if approved:
             logger.debug("Sonarr approved release: %s", torrent_title)
@@ -75,7 +75,7 @@ def init():
     else:
         if cookie_file.exists():
             tracker_cookies = pickle.load(cookie_file.open('rb'))
-            if tracker_cookies is not None:
+            if not tracker_cookies:
                 valid = yield from check_cookies()
                 if valid:
                     logger.debug("Using stored cookies as they are still valid")
@@ -88,14 +88,20 @@ def init():
         yield from req.text()
 
         # login
-        req = yield from session.post(url=login_url, data={'username': tracker_user,
-                                                           'password': tracker_pass})
+        req = yield from session.post(url=login_url, data={'username': tracker_user, 'password': tracker_pass})
         data = yield from req.text()
 
         # store cookies if login successful
         if 'alt=\"Log Out\"' in data:
-            tracker_cookies = session.cookies
+            if tracker_cookies is not None:
+                tracker_cookies.clear()
+
             logger.debug("Fetched user cookies")
+            for cookie in session.cookie_jar:
+                if cookie.value is not None:
+                    logger.debug("Storing cookie %s: %s", cookie.key, cookie.value)
+                    tracker_cookies[cookie.key] = cookie.value
+
             pickle.dump(tracker_cookies, cookie_file.open('wb'))
             loaded = True
         else:

@@ -122,4 +122,4 @@ def start_irc():
 if __name__ == "__main__":
     logger.info("Starting...")
     start_irc()
-    web.run_app(app, host=cfg['server.host'], port=cfg['server.port'])
+    web.run_app(app, host=cfg['server.host'], port=int(cfg['server.port']))
