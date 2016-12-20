@@ -17,8 +17,7 @@ def validate_torrent(torrent_file):
             torrent_data = torrent.read()
 
         torrent = bencode.decode(torrent_data)
-        if b'http://' in torrent[0][b'announce']:
-            validated = True
+        validated = True
 
     except Exception as ex:
         logger.exception("Exception while validate_torrent:")

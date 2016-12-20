@@ -131,7 +131,7 @@ def route(request):
         logger.error("Problem downloading torrent for: %s @ %s", torrent_id, torrent_link)
         return web.HTTPNotFound()
     elif not utils.validate_torrent(Path(torrent_path)):
-        logger.error("Downloaded torrent was invalid, no announcer present for torrent from: %s", torrent_link)
+        logger.error("Downloaded torrent was invalid, from: %s", torrent_link)
         return web.HTTPNotFound()
 
     # send torrent as response
