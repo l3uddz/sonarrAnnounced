@@ -7,6 +7,7 @@ from aiohttp import ClientSession
 import config
 
 logger = logging.getLogger("SONARR")
+logger.setLevel(logging.DEBUG)
 cfg = config.init()
 
 

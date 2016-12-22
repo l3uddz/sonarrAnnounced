@@ -35,7 +35,6 @@ logger.setLevel(logging.DEBUG)
 # Parse announcement message
 @asyncio.coroutine
 def parse(announcement):
-    global name
     if 'TV/' not in announcement:
         return
 
