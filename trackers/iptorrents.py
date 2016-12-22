@@ -35,18 +35,19 @@ logger.setLevel(logging.DEBUG)
 # Parse announcement message
 @asyncio.coroutine
 def parse(announcement):
+    global name
     if 'TV/' not in announcement:
         return
 
     logger.debug("Parsing: %s", announcement)
     # extract required information from announcement
-    torrent_title = utils.substr(announcement, '10 ', ' -', True).rstrip('')
+    torrent_title = utils.substr(announcement, '10 ', ' -', True).rstrip('')
     torrent_id = utils.get_id(announcement)
 
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
         download_link = "http://{}:{}/{}/{}".format(cfg['server.host'], cfg['server.port'], name.lower(), torrent_id)
-        approved = yield from sonarr.wanted(torrent_title, download_link)
+        approved = yield from sonarr.wanted(torrent_title, download_link, name)
         if approved:
             logger.debug("Sonarr approved release: %s", torrent_title)
         else:

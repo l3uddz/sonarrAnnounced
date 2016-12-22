@@ -1,0 +1,1 @@
+screen -d -m -t sonarrAnnounced python3.5 "/opt/sonarrAnnounced/bot.py"

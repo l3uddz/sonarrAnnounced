@@ -11,18 +11,19 @@ cfg = config.init()
 
 
 @asyncio.coroutine
-def wanted(title, download_link):
+def wanted(title, download_link, indexer):
     global cfg
 
     approved = False
-    logger.debug("Notifying Sonarr of release: %s @ %s", title, download_link)
+    logger.debug("Notifying Sonarr of release from %s: %s @ %s", indexer, title, download_link)
 
     headers = {'X-Api-Key': cfg['sonarr.apikey']}
     params = {
         'title': title,
         'downloadUrl': download_link,
         'protocol': 'Torrent',
-        'publishDate': datetime.datetime.now().isoformat()
+        'publishDate': datetime.datetime.now().isoformat(),
+        'indexer': indexer
     }
 
     with ClientSession(headers=headers) as session:
