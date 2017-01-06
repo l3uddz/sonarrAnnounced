@@ -8,9 +8,9 @@ from pluginbase import PluginBase
 
 import config
 
-logging.basicConfig(  # filename="status.log",
-    format='%(asctime)s - %(name)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(filename="status.log",
+                    format='%(asctime)s - %(name)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger("BOT")
 logger.setLevel(logging.DEBUG)
 
@@ -68,7 +68,7 @@ if len(trackers.loaded) <= 0:
 app = web.Application()
 for track in trackers.loaded:
     app.router.add_route('GET',
-                         '/{}/'.format(track['name'].lower()) + '{id}',
+                         '/{}/'.format(track['name'].lower()) + '{id}/{name}',
                          track['plugin'].route)
     logger.info("Added tracker route: '/%s/'", track['name'].lower())
 
@@ -76,8 +76,6 @@ for track in trackers.loaded:
 ############################################################
 # IRC Announce Channel Watcher
 ############################################################
-
-
 class IRC(pydle.Client):
     tracking = None
 

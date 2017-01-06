@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import pickle
 from pathlib import Path
 
 from aiohttp import web, ClientSession, FileSender
@@ -21,7 +20,6 @@ irc_channel = "#announce"
 irc_tls = False
 irc_tls_verify = False
 
-tracker_cookies = {}
 tracker_user = None
 tracker_pass = None
 
@@ -37,13 +35,15 @@ logger.setLevel(logging.DEBUG)
 def parse(announcement):
     global name
     logger.debug("Parsing: %s", announcement)
+
     # extract required information from announcement
     torrent_title = utils.strbefore(announcement, ' - ')
     torrent_id = utils.get_id(announcement, 1)
 
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
-        download_link = "http://{}:{}/{}/{}".format(cfg['server.host'], cfg['server.port'], name.lower(), torrent_id)
+        download_link = "http://{}:{}/{}/{}/{}".format(cfg['server.host'], cfg['server.port'],
+                                                       name.lower(), torrent_id, torrent_title.replace(' ', '.'))
         approved = yield from sonarr.wanted(torrent_title, download_link, name)
         if approved:
             logger.debug("Sonarr approved release: %s", torrent_title)
@@ -51,77 +51,39 @@ def parse(announcement):
             logger.debug("Sonarr rejected release: %s", torrent_title)
 
 
+@asyncio.coroutine
+def get_torrent_link(torrent_id, torrent_name):
+    torrent_link = "https://www.morethan.tv/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
+        .format(torrent_id, tracker_user, tracker_pass)
+    return torrent_link
+
+
 # Initialize tracker
 @asyncio.coroutine
 def init():
-    global tracker_cookies, tracker_user, tracker_pass
-    loaded = False
-    landing_url = "https://www.morethan.tv/login.php"
-    login_url = "https://www.morethan.tv/login.php"
+    global tracker_user, tracker_pass
 
-    # check user/pass specified before continuing
-    tracker_user = cfg["{}.user".format(name.lower())]
-    tracker_pass = cfg["{}.pass".format(name.lower())]
-    if not tracker_user or not tracker_user:
-        return loaded
+    tracker_user = cfg["{}.auth_key".format(name.lower())]
+    tracker_pass = cfg["{}.torrent_pass".format(name.lower())]
 
-    # check stored cookies before proceeding
-    cookie_dir = Path('cookies')
-    cookie_file = cookie_dir / "{}.cookies".format(name.lower())
-    if not cookie_dir.exists():
-        cookie_dir.mkdir(parents=True)
-    else:
-        if cookie_file.exists():
-            tracker_cookies = pickle.load(cookie_file.open('rb'))
-            if tracker_cookies is not None and len(tracker_cookies) > 0:
-                valid = yield from check_cookies()
-                if valid:
-                    logger.debug("Using stored cookies as they are still valid")
-                    return True
+    # check auth_key && torrent_pass was supplied
+    if not tracker_user or not tracker_pass:
+        return False
 
-    # retrieve user cookies
-    with ClientSession() as session:
-        # fetch initial cookies from login page
-        req = yield from session.get(url=landing_url)
-        yield from req.text()
-
-        # login
-        req = yield from session.post(url=login_url, data={'username': tracker_user,
-                                                           'password': tracker_pass,
-                                                           'login': 'Log in',
-                                                           'keeplogged': 1})
-        data = yield from req.text()
-
-        # store cookies if login successful
-        if 'logout.php?auth=' in data:
-            if tracker_cookies is not None and len(tracker_cookies) > 0:
-                tracker_cookies.clear()
-
-            logger.debug("Fetched user cookies")
-            for cookie in session.cookie_jar:
-                if cookie.value is not None:
-                    logger.debug("Storing cookie %s: %s", cookie.key, cookie.value)
-                    tracker_cookies[cookie.key] = cookie.value
-
-            pickle.dump(tracker_cookies, cookie_file.open('wb'))
-            loaded = True
-        else:
-            logger.error("Failed fetching user cookies")
-            logger.debug("Unexpected logged in response:\n%s", data)
-
-    return loaded
+    return True
 
 
 # Route point for grabbing torrents from this tracker
 @asyncio.coroutine
 def route(request):
     torrent_id = request.match_info.get('id', None)
-    if not torrent_id:
+    torrent_name = request.match_info.get('name', None)
+    if not torrent_id or not torrent_name:
         return web.HTTPNotFound()
-    logger.debug("Sonarr requested torrent_id: %s", torrent_id)
+    logger.debug("Sonarr requested torrent_id: %s - torrent_name: %s", torrent_id, torrent_name)
 
     # retrieve .torrent link for specified torrent_id (id)
-    torrent_link = yield from find_torrent(torrent_id)
+    torrent_link = yield from get_torrent_link(torrent_id, torrent_name)
     if torrent_link is None:
         logger.error("Problem retrieving torrent link for: %s", torrent_id)
         return web.HTTPNotFound()
@@ -142,37 +104,6 @@ def route(request):
     return ret
 
 
-# Find the .torrent for the specified torrent_id
-@asyncio.coroutine
-def find_torrent(torrent_id):
-    torrent_link = None
-
-    if tracker_cookies is None or len(tracker_cookies) <= 0:
-        logger.error("There were no user cookies stored, ignoring....")
-        return torrent_link
-
-    torrent_link = "https://www.morethan.tv/torrents.php?action=download&id={}".format(torrent_id)
-    return torrent_link
-
-    # Below code will retrieve the download link directly from the details page, however this is not needed - but incase it ever is...
-
-    # retrieve .torrent file within torrent details page
-    # details_url = "https://www.morethan.tv/torrents.php?id={}".format(torrent_id)
-    # with ClientSession(cookies=tracker_cookies) as session:
-    #     req = yield from session.get(url=details_url)
-    #     data = yield from req.text()
-    #
-    #     tmp = utils.substr(data, "torrents.php?action=download", '" class="tooltip" title="Download">', True)
-    #     if 'torrent_pass=' in tmp:
-    #         torrent_link = "http://www.morethan.tv/torrents.php?action=download{}".format(tmp.replace("amp;", ''))
-    #         logger.debug("Found .torrent: %s", torrent_link)
-    #     else:
-    #         logger.error("Problem locating .torrent: %s", details_url)
-    #         return torrent_link
-    #
-    # return torrent_link
-
-
 # Download the found .torrent file
 @asyncio.coroutine
 def download_torrent(torrent_id, torrent_link):
@@ -189,7 +120,7 @@ def download_torrent(torrent_id, torrent_link):
 
     # download torrent
     try:
-        with ClientSession(cookies=tracker_cookies) as session:
+        with ClientSession() as session:
             req = yield from session.get(url=torrent_link)
             if req.status == 200:
                 with torrent_path.open('wb') as fd:  # open(torrent_path, 'wb') as fd:
@@ -211,21 +142,3 @@ def download_torrent(torrent_id, torrent_link):
 
     logger.debug("Downloaded: %s", torrent_file)
     return downloaded, torrent_path
-
-
-# Check if stored cookies are valid
-@asyncio.coroutine
-def check_cookies():
-    valid = False
-    if tracker_cookies is None or len(tracker_cookies) <= 0:
-        return valid
-
-    with ClientSession(cookies=tracker_cookies) as session:
-        req = yield from session.get(url='https://www.morethan.tv/torrents.php')
-        data = yield from req.text()
-        if 'logout.php?auth=' in data:
-            valid = True
-        else:
-            logger.debug("Stored cookies have expired, renewing...")
-
-    return valid

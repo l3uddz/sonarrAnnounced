@@ -15,9 +15,11 @@ def init():
     cfg.init('sonarr.apikey', '')
     cfg.init('sonarr.url', 'http://localhost:8989')
     cfg.init('iptorrents.user', '')
-    cfg.init('iptorrents.pass', '')
+    cfg.init('iptorrents.auth_key', '')
+    cfg.init('iptorrents.torrent_pass', '')
     cfg.init('morethan.user', '')
-    cfg.init('morethan.pass', '')
+    cfg.init('morethan.auth_key', '')
+    cfg.init('morethan.torrent_pass', '')
 
     cfg.sync()
     return cfg
