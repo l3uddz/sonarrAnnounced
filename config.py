@@ -10,7 +10,7 @@ def init():
     global cfg
 
     cfg.init('server.host', 'localhost')
-    cfg.init('server.port', '8080')
+    cfg.init('server.port', '3467')
     cfg.init('sonarr.apikey', '')
     cfg.init('sonarr.url', 'http://localhost:8989')
     cfg.init('iptorrents.nick', '')
