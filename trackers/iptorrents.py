@@ -35,11 +35,12 @@ logger.setLevel(logging.DEBUG)
 def parse(announcement):
     if 'TV/' not in announcement:
         return
-    logger.debug("Parsing: %s", announcement)
+    decolored = utils.strip_irc_color_codes(announcement)
+    logger.debug("Parsing: %s", decolored)
 
     # extract required information from announcement
-    torrent_title = utils.substr(announcement, '10 ', ' -', True).rstrip('')
-    torrent_id = utils.get_id(announcement)
+    torrent_title = utils.substr(decolored, '] ', ' -', True)
+    torrent_id = utils.get_id(decolored)
 
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
