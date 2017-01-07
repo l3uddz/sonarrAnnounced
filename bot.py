@@ -96,6 +96,10 @@ class IRC(pydle.Client):
 
         asyncio.run_coroutine_threadsafe(self.tracking['plugin'].parse(message), loop)
 
+    def on_invite(self, channel, by):
+        if channel == self.tracking['irc_channel']:
+            self.join(self.tracking['irc_channel'])
+
 
 @concurrent.threaded
 def start_irc():
