@@ -7,16 +7,19 @@ apikey = YOUR-API-KEY
 url = http://localhost:8989
 
 [iptorrents]
-nick = 
+nick =
+nick_pass =
 auth_key = 
 torrent_pass = 
 
 [morethan]
-nick = 
+nick =
+nick_pass =
 auth_key = 
 torrent_pass = 
 
 [btn]
-nick = 
+nick =
+nick_pass =
 auth_key = 
 torrent_pass = 

@@ -84,6 +84,11 @@ class IRC(pydle.Client):
 
     def on_connect(self):
         logger.info("Connected to: %s, joining %s", self.tracking['irc_host'], self.tracking['irc_channel'])
+
+        nick_pass = cfg["{}.nick_pass".format(self.tracking['name'].lower())]
+        if nick_pass is not None and len(nick_pass) > 1:
+            self.rawmsg('NICKSERV', 'IDENTIFY', cfg["{}.nick_pass".format(self.tracking['name'].lower())])
+
         self.join(self.tracking['irc_channel'])
 
     def on_message(self, source, target, message):
