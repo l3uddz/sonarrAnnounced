@@ -36,10 +36,11 @@ torrent_title = None
 @asyncio.coroutine
 def parse(announcement):
     global name, torrent_title
-    logger.debug("Parsing: %s", announcement)
+    decolored = utils.strip_irc_color_codes(announcement)
+    logger.debug("Parsing: %s", decolored)
 
-    # extract required information from announcement
-    torrent_title = utils.substr(utils.strip_irc_color_codes(announcement), 'Title: ', ' ]', True)
+    # extract required information from decolored
+    torrent_title = utils.substr(decolored, 'NOW BROADCASTING! [ ', ' ]', True)
     torrent_id = utils.get_id(announcement, 1)
 
     # pass announcement to sonarr
