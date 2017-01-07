@@ -9,7 +9,7 @@ from pluginbase import PluginBase
 import config
 
 logging.basicConfig(filename="status.log",
-                    format='%(asctime)s - %(name)s - %(message)s',
+                    format='%(asctime)s - %(name)-20s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger("BOT")
 logger.setLevel(logging.DEBUG)
