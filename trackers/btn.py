@@ -40,8 +40,9 @@ def parse(announcement):
     logger.debug("Parsing: %s", decolored)
 
     # extract required information from decolored
-    torrent_title = utils.substr(decolored, 'NOW BROADCASTING! [ ', ' ]', True)
-    torrent_id = utils.get_id(announcement, 1)
+    if 'NOW BROADCASTING' in decolored:
+        torrent_title = utils.substr(decolored, '[ ', ' ]', True)
+    torrent_id = utils.get_id(decolored, 1)
 
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
