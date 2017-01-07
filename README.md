@@ -6,8 +6,7 @@
 ## Installation (on Debian Jessie)
 1. Install Python 3.5.2
 2. Install pip `sudo easy_install pip`
-3. Set /opt owner `sudo chown -R user:user /opt`
-- `cd /opt`
+3. `cd /opt`
 4. Clone project `git clone https://github.com/l3uddz/sonarrAnnounced`
 - `cd sonarrAnnounced`
 5. Install requirements.txt `sudo pip3.5 install -r requirements.txt`
