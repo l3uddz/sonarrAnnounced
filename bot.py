@@ -72,11 +72,13 @@ for track in trackers.loaded:
                          track['plugin'].route)
     logger.info("Added tracker route: '/%s/'", track['name'].lower())
 
-
 ############################################################
 # IRC Announce Channel Watcher
 ############################################################
-class IRC(pydle.Client):
+BotBase = pydle.featurize(pydle.features.RFC1459Support, pydle.features.TLSSupport)
+
+
+class IRC(BotBase):
     tracking = None
 
     def set_tracker(self, track):
@@ -94,7 +96,10 @@ class IRC(pydle.Client):
     def on_message(self, source, target, message):
         global loop
 
-        asyncio.run_coroutine_threadsafe(self.tracking['plugin'].parse(message), loop)
+        if source[0] != '#':
+            logger.debug("%s sent us a message: %s", source, message)
+        else:
+            asyncio.run_coroutine_threadsafe(self.tracking['plugin'].parse(message), loop)
 
     def on_invite(self, channel, by):
         if channel == self.tracking['irc_channel']:
