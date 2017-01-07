@@ -59,7 +59,7 @@ def parse(announcement):
 # Generate torrent link
 @asyncio.coroutine
 def get_torrent_link(torrent_id, torrent_name):
-    torrent_link = "https://broadcastthe.net/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
+    torrent_link = "https://broadcasthe.net/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
         .format(torrent_id, tracker_user, tracker_pass)
     return torrent_link
 
