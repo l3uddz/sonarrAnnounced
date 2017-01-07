@@ -1,0 +1,22 @@
+[server]
+host = localhost
+port = 8080
+
+[sonarr]
+apikey = YOUR-API-KEY
+url = http://localhost:8989
+
+[iptorrents]
+nick = 
+auth_key = 
+torrent_pass = 
+
+[morethan]
+nick = 
+auth_key = 
+torrent_pass = 
+
+[btn]
+nick = 
+auth_key = 
+torrent_pass = 
