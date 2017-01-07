@@ -1,0 +1,14 @@
+[Unit]
+Description=sonarrAnnounced
+
+[Service]
+WorkingDirectory=/opt/sonarrAnnounced
+ExecStart=/usr/local/bin/python3.5 /opt/sonarrAnnounced/bot.py
+Restart=always
+GuessMainPID=no
+Type=simple
+User=user
+Group=user
+
+[Install]
+WantedBy=multi-user.target

@@ -1,16 +1,21 @@
 # sonarrAnnounced
 
+## Requirements
+1) Python 3.5.2 or newer
+
 ## Installation (on Debian Jessie)
-1. Install Python 3.x PIP `sudo easy_install pip`
-2. Set /opt owner `sudo chown -R user:user /opt`
+1. Install Python 3.5.2
+2. Install pip `sudo easy_install pip`
+3. Set /opt owner `sudo chown -R user:user /opt`
 - `cd /opt`
-3. Clone project `git clone https://github.com/l3uddz/sonarrAnnounced`
+4. Clone project `git clone https://github.com/l3uddz/sonarrAnnounced`
 - `cd sonarrAnnounced`
-4. Install requirements.txt `sudo pip3 install -r requirements.txt`
-5. `python3 bot.py`
-6. Edit settings.cfg (leave user/pass of tracker empty to disable and not initialize that tracker)
-7. `sudo apt-get install screen`
-8. `sudo chmod +x run.sh`
-9. `./run.sh`
-10. `screen -r` (attaches to screen so you can see live debug messages)
-11. Ctrl A+D to detach and keep screen running, repeat previous step to reattach/view.
+5. Install requirements.txt `sudo pip3.5 install -r requirements.txt`
+6. `python3.5 bot.py`
+7. Configure settings.cfg (leave auth_key/torrent_pass empty to keep a tracker disabled)
+8. Edit systemd/announced.service with your user
+- `cp announced.service /etc/systemd/system/announced.service`
+9. `sudo systemctl daemon-reload`
+10. `sudo systemctl start announced`
+11. Check your status.log file that should have been created to ensure it is operating correctly and parsing messages `tail -f status.log`
+12. Enable start at boot if you wish, `sudo systemctl enable announced`
