@@ -83,7 +83,7 @@ def route(request):
     logger.debug("Sonarr requested torrent_id: %s - torrent_name: %s", torrent_id, torrent_name)
 
     # retrieve .torrent link for specified torrent_id (id)
-    torrent_link = yield from get_torrent_link(torrent_id, torrent_name)
+    torrent_link = yield from get_torrent_link(torrent_id, torrent_name.replace('.torrent', ''))
     if torrent_link is None:
         logger.error("Problem retrieving torrent link for: %s", torrent_id)
         return web.HTTPNotFound()
