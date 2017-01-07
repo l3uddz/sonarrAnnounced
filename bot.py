@@ -100,11 +100,10 @@ def start_irc():
     for tracker in trackers.loaded:
         logger.info("Pooling server: %s:%d %s", tracker['irc_host'], tracker['irc_port'], tracker['irc_channel'])
 
-        nick = cfg['bot.nickname'].replace('%USER%', cfg["{}.user"
-                                           .format(tracker['name'].lower())])
+        nick = cfg["{}.nick".format(tracker['name'].lower())]
         client = IRC(nick)
-        client.set_tracker(tracker)
 
+        client.set_tracker(tracker)
         try:
             pool.connect(client, hostname=tracker['irc_host'], port=tracker['irc_port'],
                          tls=tracker['irc_tls'], tls_verify=tracker['irc_tls_verify'])

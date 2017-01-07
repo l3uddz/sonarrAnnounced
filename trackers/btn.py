@@ -13,10 +13,10 @@ cfg = config.init()
 ############################################################
 # Tracker Configuration (Hands off tracker_* variables)
 ############################################################
-name = "MoreThan"
-irc_host = "irc.morethan.tv"
+name = "BTN"
+irc_host = "irc.broadcasthe.net"
 irc_port = 6667
-irc_channel = "#announce"
+irc_channel = "#BTN-Announce"
 irc_tls = False
 irc_tls_verify = False
 
@@ -26,18 +26,20 @@ tracker_pass = None
 logger = logging.getLogger(name.upper())
 logger.setLevel(logging.DEBUG)
 
-
 ############################################################
 # Tracker Framework (all trackers must follow)
 ############################################################
 # Parse announcement message
+torrent_title = None
+
+
 @asyncio.coroutine
 def parse(announcement):
-    global name
+    global name, torrent_title
     logger.debug("Parsing: %s", announcement)
 
     # extract required information from announcement
-    torrent_title = utils.str_before(announcement, ' - ')
+    torrent_title = utils.substr(utils.strip_irc_color_codes(announcement), 'Title: ', ' ]', True)
     torrent_id = utils.get_id(announcement, 1)
 
     # pass announcement to sonarr
@@ -49,11 +51,13 @@ def parse(announcement):
             logger.debug("Sonarr approved release: %s", torrent_title)
         else:
             logger.debug("Sonarr rejected release: %s", torrent_title)
+        torrent_title = None
 
 
+# Generate torrent link
 @asyncio.coroutine
 def get_torrent_link(torrent_id, torrent_name):
-    torrent_link = "https://www.morethan.tv/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
+    torrent_link = "https://broadcastthe.net/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
         .format(torrent_id, tracker_user, tracker_pass)
     return torrent_link
 

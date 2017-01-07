@@ -11,15 +11,17 @@ def init():
 
     cfg.init('server.host', 'localhost')
     cfg.init('server.port', '8080')
-    cfg.init('bot.nickname', '%USER%_autodl')
     cfg.init('sonarr.apikey', '')
     cfg.init('sonarr.url', 'http://localhost:8989')
-    cfg.init('iptorrents.user', '')
+    cfg.init('iptorrents.nick', '')
     cfg.init('iptorrents.auth_key', '')
     cfg.init('iptorrents.torrent_pass', '')
-    cfg.init('morethan.user', '')
+    cfg.init('morethan.nick', '')
     cfg.init('morethan.auth_key', '')
     cfg.init('morethan.torrent_pass', '')
+    cfg.init('btn.nick', '')
+    cfg.init('btn.auth_key', '')
+    cfg.init('btn.torrent_pass', '')
 
     cfg.sync()
     return cfg

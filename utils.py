@@ -52,15 +52,22 @@ def substr(data, first, last, strip):
     return val
 
 
-def strbefore(data, before):
+def str_before(data, before):
     val = None
     try:
         val = data[0:data.find(before) - 1]
     except Exception as ex:
-        logger.exception("Exception while strbefore:")
+        logger.exception("Exception while str_before:")
 
     return val
 
 
 def get_urls(text):
     return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+
+
+def strip_irc_color_codes(line):
+    line = re.sub("\x03\d\d?,\d\d?", "", line)
+    line = re.sub("\x03\d\d?", "", line)
+    line = re.sub("[\x01-\x1F]", "", line)
+    return line
