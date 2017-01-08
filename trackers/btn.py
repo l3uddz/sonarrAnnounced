@@ -8,7 +8,7 @@ import utils
 cfg = config.init()
 
 ############################################################
-# Tracker Configuration (Hands off tracker_* variables)
+# Tracker Configuration
 ############################################################
 name = "BTN"
 irc_host = "irc.broadcasthe.net"
@@ -17,8 +17,9 @@ irc_channel = "#BTN-Announce"
 irc_tls = False
 irc_tls_verify = False
 
-tracker_user = None
-tracker_pass = None
+# these are loaded by init
+auth_key = None
+torrent_pass = None
 
 logger = logging.getLogger(name.upper())
 logger.setLevel(logging.DEBUG)
@@ -57,14 +58,14 @@ def parse(announcement):
 @asyncio.coroutine
 def get_torrent_link(torrent_id, torrent_name):
     torrent_link = "https://broadcasthe.net/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
-        .format(torrent_id, tracker_user, tracker_pass)
+        .format(torrent_id, auth_key, torrent_pass)
     return torrent_link
 
 
 # Initialize tracker
 @asyncio.coroutine
 def init():
-    global tracker_user, tracker_pass
+    global auth_key, torrent_pass
 
     tracker_user = cfg["{}.auth_key".format(name.lower())]
     tracker_pass = cfg["{}.torrent_pass".format(name.lower())]
