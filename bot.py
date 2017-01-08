@@ -9,31 +9,35 @@ from pluginbase import PluginBase
 import config
 
 ############################################################
-# Initialization
+# Configuration
 ############################################################
 
-# Setup logger
-logging.basicConfig(filename="status.log",
-                    format='%(asctime)s - %(name)-20s - %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
+cfg = config.init()
 
-console = logging.StreamHandler()
-console.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)-20s - %(message)s')
-console.setFormatter(formatter)
-logging.getLogger('').addHandler(console)
+############################################################
+# Initialization
+############################################################
+# Setup logging
+logFormatter = logging.Formatter('%(asctime)s - %(name)-20s - %(message)s')
+rootLogger = logging.getLogger()
+
+if cfg['bot.debug_file']:
+    fileHandler = logging.FileHandler('status.log')
+    fileHandler.setLevel(logging.DEBUG)
+    fileHandler.setFormatter(logFormatter)
+    rootLogger.addHandler(fileHandler)
+
+if cfg['bot.debug_console']:
+    consoleHandler = logging.StreamHandler()
+    consoleHandler.setLevel(logging.DEBUG)
+    consoleHandler.setFormatter(logFormatter)
+    rootLogger.addHandler(consoleHandler)
 
 logger = logging.getLogger("BOT")
 logger.setLevel(logging.DEBUG)
 
 # Event loop
 loop = asyncio.get_event_loop()
-
-############################################################
-# Configuration
-############################################################
-
-cfg = config.init()
 
 
 ############################################################

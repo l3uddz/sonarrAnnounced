@@ -2,6 +2,10 @@
 host = localhost
 port = 3467
 
+[bot]
+debug_file = true
+debug_console = true
+
 [sonarr]
 apikey = YOUR-API-KEY
 url = http://localhost:8989
