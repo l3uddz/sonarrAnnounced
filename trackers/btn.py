@@ -67,11 +67,11 @@ def get_torrent_link(torrent_id, torrent_name):
 def init():
     global auth_key, torrent_pass
 
-    tracker_user = cfg["{}.auth_key".format(name.lower())]
-    tracker_pass = cfg["{}.torrent_pass".format(name.lower())]
+    auth_key = cfg["{}.auth_key".format(name.lower())]
+    torrent_pass = cfg["{}.torrent_pass".format(name.lower())]
 
     # check auth_key && torrent_pass was supplied
-    if not tracker_user or not tracker_pass:
+    if not auth_key or not torrent_pass:
         return False
 
     return True
