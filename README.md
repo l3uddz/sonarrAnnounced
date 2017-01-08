@@ -22,6 +22,13 @@ Python script to notify sonarr of tracker announcements from IRC announce channe
 11. Check your status.log file that should have been created to ensure it is operating correctly and parsing messages `tail -f status.log`
 12. Enable start at boot if you wish, `sudo systemctl enable announced
 
+## Supported Trackers
+1. BTN
+2. MTV
+3. IPTorrents
+
+Open to suggestions/pull requests containing tested and working trackers.
+
 ## To-Do
 
 
