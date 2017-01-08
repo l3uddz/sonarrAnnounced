@@ -18,3 +18,6 @@
 10. `sudo systemctl start announced`
 11. Check your status.log file that should have been created to ensure it is operating correctly and parsing messages `tail -f status.log`
 12. Enable start at boot if you wish, `sudo systemctl enable announced`
+
+## Feature Requests
+Request features at [FeatHub](http://feathub.com/l3uddz/sonarrAnnounced)
