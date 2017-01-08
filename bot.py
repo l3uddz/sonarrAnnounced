@@ -33,7 +33,7 @@ if cfg['bot.debug_console']:
     consoleHandler.setFormatter(logFormatter)
     rootLogger.addHandler(consoleHandler)
 
-logger = logging.getLogger("BOT")
+logger = rootLogger.getChild("BOT")
 logger.setLevel(logging.DEBUG)
 
 # Event loop
