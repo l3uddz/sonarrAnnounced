@@ -97,7 +97,7 @@ class IRC(BotBase):
         global loop
 
         if source[0] != '#':
-            logger.debug("%s sent us a message: %s", source, message)
+            logger.debug("%s sent us a message: %s", target, message)
         else:
             asyncio.run_coroutine_threadsafe(self.tracking['plugin'].parse(message), loop)
 
