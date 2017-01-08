@@ -1,8 +1,5 @@
 import asyncio
 import logging
-from pathlib import Path
-
-from aiohttp import web, ClientSession, FileSender
 
 import config
 import sonarr
@@ -71,74 +68,3 @@ def init():
         return False
 
     return True
-
-
-# Route point for grabbing torrents from this tracker
-@asyncio.coroutine
-def route(request):
-    torrent_id = request.match_info.get('id', None)
-    torrent_name = request.match_info.get('name', None)
-    if not torrent_id or not torrent_name:
-        return web.HTTPNotFound()
-    logger.debug("Sonarr requested torrent_id: %s - torrent_name: %s", torrent_id, torrent_name)
-
-    # retrieve .torrent link for specified torrent_id (id)
-    torrent_link = yield from get_torrent_link(torrent_id, torrent_name.replace('.torrent', ''))
-    if torrent_link is None:
-        logger.error("Problem retrieving torrent link for: %s", torrent_id)
-        return web.HTTPNotFound()
-
-    # download .torrent
-    downloaded, torrent_path = yield from download_torrent(torrent_id, torrent_link)
-    if downloaded is False or torrent_path is None:
-        logger.error("Problem downloading torrent for: %s @ %s", torrent_id, torrent_link)
-        return web.HTTPNotFound()
-    elif not utils.validate_torrent(Path(torrent_path)):
-        logger.error("Downloaded torrent was invalid, from: %s", torrent_link)
-        return web.HTTPNotFound()
-
-    # send torrent as response
-    logger.debug("Serving %s to Sonarr", torrent_path)
-    sender = FileSender(resp_factory=web.StreamResponse, chunk_size=256 * 1024)
-    ret = yield from sender.send(request, Path(torrent_path))
-    return ret
-
-
-# Download the found .torrent file
-@asyncio.coroutine
-def download_torrent(torrent_id, torrent_link):
-    chunk_size = 256 * 1024
-    downloaded = False
-
-    # generate filename
-    torrents_dir = Path('torrents', name)
-    if not torrents_dir.exists():
-        torrents_dir.mkdir(parents=True)
-
-    torrent_file = "{}.torrent".format(torrent_id)
-    torrent_path = torrents_dir / torrent_file
-
-    # download torrent
-    try:
-        with ClientSession() as session:
-            req = yield from session.get(url=torrent_link)
-            if req.status == 200:
-                with torrent_path.open('wb') as fd:  # open(torrent_path, 'wb') as fd:
-                    while True:
-                        chunk = yield from req.content.read(chunk_size)
-                        if not chunk:
-                            break
-                        fd.write(chunk)
-            else:
-                logger.error("Unexpected response when downloading torrent: %s", torrent_link)
-                return False, None
-
-    except Exception as ex:
-        logger.exception("Exception downloading torrent: %s to %s", torrent_link, torrent_file)
-        return False, None
-
-    finally:
-        downloaded = True
-
-    logger.debug("Downloaded: %s", torrent_file)
-    return downloaded, torrent_path

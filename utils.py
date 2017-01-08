@@ -71,3 +71,11 @@ def strip_irc_color_codes(line):
     line = re.sub("\x03\d\d?", "", line)
     line = re.sub("[\x01-\x1F]", "", line)
     return line
+
+
+# credits: http://stackoverflow.com/a/4391978
+def find_tracker(lst, key, value):
+    for i, dic in enumerate(lst):
+        if dic[key] == value:
+            return dic
+    return None
