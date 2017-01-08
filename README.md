@@ -1,5 +1,8 @@
 # sonarrAnnounced
 
+Python script to notify sonarr of tracker announcements from IRC announce channels and serve requested torrents. 
+
+
 ## Requirements
 1) Python 3.5.2 or newer
 
@@ -17,7 +20,10 @@
 9. `sudo systemctl daemon-reload`
 10. `sudo systemctl start announced`
 11. Check your status.log file that should have been created to ensure it is operating correctly and parsing messages `tail -f status.log`
-12. Enable start at boot if you wish, `sudo systemctl enable announced`
+12. Enable start at boot if you wish, `sudo systemctl enable announced
+
+## To-Do
+
 
 ## Feature Requests
 Request features at [FeatHub](http://feathub.com/l3uddz/sonarrAnnounced)
