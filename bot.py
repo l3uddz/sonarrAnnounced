@@ -8,12 +8,25 @@ from pluginbase import PluginBase
 
 import config
 
+############################################################
+# Initialization
+############################################################
+
+# Setup logger
 logging.basicConfig(filename="status.log",
                     format='%(asctime)s - %(name)-20s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
+
+console = logging.StreamHandler()
+console.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)-20s - %(message)s')
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
+
 logger = logging.getLogger("BOT")
 logger.setLevel(logging.DEBUG)
 
+# Event loop
 loop = asyncio.get_event_loop()
 
 ############################################################
