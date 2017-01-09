@@ -1,13 +1,11 @@
 import asyncio
 import logging
-from pathlib import Path
 
 import pydle
-from aiohttp import web, ClientSession, FileSender
+from aiohttp import web
 from deco import *
 
 import config
-import utils
 from trackers import Trackers
 
 ############################################################
@@ -19,6 +17,7 @@ cfg = config.init()
 ############################################################
 # Initialization
 ############################################################
+
 # Setup logging
 logFormatter = logging.Formatter('%(asctime)s - %(name)-20s - %(message)s')
 rootLogger = logging.getLogger()
@@ -47,89 +46,11 @@ if len(trackers.loaded) <= 0:
     logger.info("No trackers were initialized, exiting...")
     quit()
 
-
-############################################################
-# Torrent Server Routing Points for Loaded Trackers
-############################################################
-# Sonarr request endpoint
-@asyncio.coroutine
-def route(request):
-    tracker = trackers.get_tracker(request.match_info.get('tracker', None))
-    torrent_id = request.match_info.get('id', None)
-    torrent_name = request.match_info.get('name', None)
-    if not tracker or not torrent_id or not torrent_name:
-        return web.HTTPNotFound()
-    logger.debug("Sonarr requested torrent_id: %s - torrent_name: %s from: %s", torrent_id, torrent_name,
-                 tracker['name'])
-
-    # retrieve .torrent link for specified torrent_id (id)
-    torrent_link = yield from tracker['plugin'].get_torrent_link(torrent_id, torrent_name.replace('.torrent', ''))
-    if torrent_link is None:
-        logger.error("Problem retrieving torrent link for: %s", torrent_id)
-        return web.HTTPNotFound()
-
-    # download .torrent
-    downloaded, torrent_path = yield from download_torrent(tracker, torrent_id, torrent_link)
-    if downloaded is False or torrent_path is None:
-        logger.error("Problem downloading torrent for: %s @ %s", torrent_id, torrent_link)
-        return web.HTTPNotFound()
-    elif not utils.validate_torrent(Path(torrent_path)):
-        logger.error("Downloaded torrent was invalid, from: %s", torrent_link)
-        return web.HTTPNotFound()
-
-    # send torrent as response
-    logger.debug("Serving %s to Sonarr", torrent_path)
-    sender = FileSender(resp_factory=web.StreamResponse, chunk_size=256 * 1024)
-    ret = yield from sender.send(request, Path(torrent_path))
-    return ret
-
-
-# Download torrent
-@asyncio.coroutine
-def download_torrent(tracker, torrent_id, torrent_link):
-    chunk_size = 256 * 1024
-    downloaded = False
-
-    # generate filename
-    torrents_dir = Path('torrents', tracker['name'])
-    if not torrents_dir.exists():
-        torrents_dir.mkdir(parents=True)
-
-    torrent_file = "{}.torrent".format(torrent_id)
-    torrent_path = torrents_dir / torrent_file
-
-    # download torrent
-    try:
-        with ClientSession() as session:
-            req = yield from session.get(url=torrent_link)
-            if req.status == 200:
-                with torrent_path.open('wb') as fd:  # open(torrent_path, 'wb') as fd:
-                    while True:
-                        chunk = yield from req.content.read(chunk_size)
-                        if not chunk:
-                            break
-                        fd.write(chunk)
-            else:
-                logger.error("Unexpected response when downloading torrent: %s from tracker: %s", torrent_link,
-                             tracker.name)
-                return False, None
-
-    except Exception as ex:
-        logger.exception("Exception downloading torrent: %s to %s", torrent_link, torrent_file)
-        return False, None
-
-    finally:
-        downloaded = True
-
-    logger.debug("Downloaded: %s", torrent_file)
-    return downloaded, torrent_path
-
-
-# Initialize torrent server
+# Torrent server
 app = web.Application()
 app.router.add_route('GET',
                      '/{tracker}/{id}/{name}',
-                     route)
+                     trackers.route)
 
 ############################################################
 # IRC Announce Channel Watcher
