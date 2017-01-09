@@ -19,8 +19,8 @@ class IRC(BotBase):
     tracking = None
     loop = None
 
+    # temp fix until pydle handles connect failures
     def connect(self, *args, **kwargs):
-        logger.debug("Overriding parent connect to handle disconnect failure")
         try:
             super().connect(*args, **kwargs)
         except socket.error:
