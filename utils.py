@@ -25,12 +25,17 @@ def validate_torrent(torrent_file):
     return validated
 
 
-def get_id(text, group=0):
+def get_id(text, group=1, pattern=None):
     torrent_id = None
     try:
-        m = re.findall('id=(\S*)', text)
-        if m:
-            torrent_id = m[group]
+        if pattern is not None:
+            m = re.search(pattern, text)
+            if m:
+                torrent_id = m.group(group)
+        else:
+            m = re.findall('id=(\S*)', text)
+            if m:
+                torrent_id = m[group]
 
     except Exception as ex:
         logger.exception("Exception while get_id:")

@@ -38,7 +38,7 @@ def parse(announcement):
 
     # extract required information from announcement
     torrent_title = utils.substr(decolored, '] ', ' -', True)
-    torrent_id = utils.get_id(decolored)
+    torrent_id = utils.get_id(decolored, 0)
 
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
