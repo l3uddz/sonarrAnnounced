@@ -5,10 +5,10 @@ from pathlib import Path
 import pydle
 from aiohttp import web, ClientSession, FileSender
 from deco import *
-from pluginbase import PluginBase
 
 import config
 import utils
+from trackers import Trackers
 
 ############################################################
 # Configuration
@@ -41,52 +41,8 @@ logger.setLevel(logging.DEBUG)
 # Event loop
 loop = asyncio.get_event_loop()
 
-
-############################################################
-# Classes
-############################################################
-class Trackers(object):
-    plugin_base = None
-    source = None
-    loaded = []
-
-    def __init__(self):
-        self.plugin_base = PluginBase(package='trackers')
-        self.source = self.plugin_base.make_plugin_source(
-            searchpath=['./trackers'],
-            identifier='trackers')
-
-        # Load all trackers
-        logger.info("Loading trackers...")
-
-        for tmp in self.source.list_plugins():
-            tracker = self.source.load_plugin(tmp)
-            loaded = loop.run_until_complete(tracker.init())
-            if loaded:
-                logger.info("Initialized tracker: %s", tracker.name)
-
-                self.loaded.append({
-                    'name': tracker.name.lower(), 'irc_host': tracker.irc_host,
-                    'irc_port': tracker.irc_port, 'irc_channel': tracker.irc_channel, 'irc_tls': tracker.irc_tls,
-                    'irc_tls_verify': tracker.irc_tls_verify, 'plugin': tracker
-                })
-            else:
-                logger.info("Problem initializing tracker: %s", tracker.name)
-
-    def get_tracker(self, name):
-        if len(self.loaded) < 1:
-            logger.debug("No trackers loaded...")
-            return
-
-        tracker = utils.find_tracker(self.loaded, 'name', name.lower())
-        if tracker is not None:
-            return tracker
-
-        return None
-
-
-# Initialize Trackers
-trackers = Trackers()
+# Trackers
+trackers = Trackers(loop)
 if len(trackers.loaded) <= 0:
     logger.info("No trackers were initialized, exiting...")
     quit()
