@@ -45,7 +45,9 @@ def parse(announcement):
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
         download_link = "http://{}:{}/{}/{}/{}".format(cfg['server.host'], cfg['server.port'],
-                                                       name.lower(), torrent_id, torrent_title.replace(' ', '.'))
+                                                       name.lower(), torrent_id,
+                                                       utils.replace_spaces(torrent_title, '.'))
+
         approved = yield from sonarr.wanted(torrent_title, download_link, name)
         if approved:
             logger.debug("Sonarr approved release: %s", torrent_title)
