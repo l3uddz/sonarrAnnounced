@@ -28,4 +28,4 @@ cookies/*
 *.bat
 
 # develop trackers
-develop.py
+trackers/develop.py
