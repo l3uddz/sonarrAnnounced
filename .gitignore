@@ -26,6 +26,3 @@ cookies/*
 
 # generators
 *.bat
-
-# develop trackers
-trackers/develop.py
