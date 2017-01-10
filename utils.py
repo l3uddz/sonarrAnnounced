@@ -84,3 +84,7 @@ def find_tracker(lst, key, value):
         if dic[key] == value:
             return dic
     return None
+
+
+def replace_spaces(text, new):
+    return re.sub('[ ]{1,}', new, text)
