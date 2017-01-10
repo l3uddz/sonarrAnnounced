@@ -46,4 +46,4 @@ def get_torrent_link(torrent_id, torrent_name):
 # Initialize tracker
 @asyncio.coroutine
 def init():
-    return True
+    return False
