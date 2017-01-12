@@ -44,7 +44,7 @@ class Trackers(object):
     def get_tracker(self, name):
         if len(self.loaded) < 1:
             logger.debug("No trackers loaded...")
-            return
+            return None
 
         tracker = utils.find_tracker(self.loaded, 'name', name.lower())
         if tracker is not None:
