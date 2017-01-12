@@ -45,11 +45,8 @@ if len(trackers.loaded) <= 0:
     logger.info("No trackers were initialized, exiting...")
     quit()
 
-# Torrent server
+# Web UI
 app = web.Application()
-app.router.add_route('GET',
-                     '/{tracker}/{id}/{name}',
-                     trackers.route)
 
 ############################################################
 # MAIN ENTRY

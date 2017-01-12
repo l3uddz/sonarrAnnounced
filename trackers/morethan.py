@@ -40,9 +40,7 @@ def parse(announcement):
 
     # pass announcement to sonarr
     if torrent_id is not None and torrent_title is not None:
-        download_link = "http://{}:{}/{}/{}/{}".format(cfg['server.host'], cfg['server.port'],
-                                                       name.lower(), torrent_id,
-                                                       utils.replace_spaces(torrent_title, '.'))
+        download_link = get_torrent_link(torrent_id, utils.replace_spaces(torrent_title, '.'))
 
         approved = yield from sonarr.wanted(torrent_title, download_link, name)
         if approved:
@@ -51,7 +49,7 @@ def parse(announcement):
             logger.debug("Sonarr rejected release: %s", torrent_title)
 
 
-@asyncio.coroutine
+# Generate torrent link
 def get_torrent_link(torrent_id, torrent_name):
     torrent_link = "https://www.morethan.tv/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
         .format(torrent_id, auth_key, torrent_pass)

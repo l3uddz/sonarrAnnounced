@@ -1,29 +1,12 @@
 import logging
 import re
 
-from libs import bencode
-
 logger = logging.getLogger("UTILS")
 
 
 #############################################################
 # Useful reusable methods
 #############################################################
-def validate_torrent(torrent_file):
-    validated = False
-
-    try:
-        with torrent_file.open('rb') as torrent:
-            torrent_data = torrent.read()
-
-        torrent = bencode.decode(torrent_data)
-        validated = True
-
-    except Exception as ex:
-        logger.exception("Exception while validate_torrent:")
-
-    return validated
-
 
 def get_id(text, group=1, pattern=None):
     torrent_id = None
