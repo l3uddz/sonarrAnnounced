@@ -13,13 +13,8 @@ __pycache__/
 *$py.class
 
 # Covers sonarrAnnounced sensitive info
-# torrents
-torrents/*
-*.torrent
-
-# cookies
-cookies/*
-*.cookie
+# databases
+*.db
 
 # configs
 *.cfg

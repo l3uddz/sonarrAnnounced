@@ -1,6 +1,7 @@
 import logging
 
 import config
+import db
 import sonarr
 import utils
 
@@ -33,7 +34,6 @@ torrent_title = None
 def parse(announcement):
     global name, torrent_title
     decolored = utils.strip_irc_color_codes(announcement)
-#    logger.debug("Parsing: %s", decolored)
 
     # extract required information from decolored
     if 'NOW BROADCASTING' in decolored:
@@ -44,9 +44,11 @@ def parse(announcement):
     if torrent_id is not None and torrent_title is not None:
         download_link = get_torrent_link(torrent_id, utils.replace_spaces(torrent_title, '.'))
 
+        announced, created = db.Announced.get_or_create(title=torrent_title, indexer=name)
         approved = sonarr.wanted(torrent_title, download_link, name)
         if approved:
             logger.debug("Sonarr approved release: %s", torrent_title)
+            snatched, created = db.Snatched.get_or_create(title=torrent_title, indexer=name)
         else:
             logger.debug("Sonarr rejected release: %s", torrent_title)
         torrent_title = None

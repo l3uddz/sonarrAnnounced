@@ -10,6 +10,7 @@ from flask import send_from_directory
 from flask_httpauth import HTTPBasicAuth
 
 import config
+import db
 
 logger = logging.getLogger("WEB-UI")
 logger.setLevel(logging.DEBUG)
@@ -42,7 +43,7 @@ def send_asset(path):
 @app.route("/")
 @auth.login_required
 def index():
-    return render_template('index.html')
+    return render_template('index.html', snatched=db.Snatched.select(), announced=db.Announced.select())
 
 
 @app.route("/trackers", methods=['GET', 'POST'])

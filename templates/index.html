@@ -38,14 +38,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+								{% for snatch in snatched %}
                                 <tr>
-                                    <td>Cell 1</td>
-                                    <td>Cell 2</td>
+                                    <td>{{ snatch.title }}</td>
+                                    <td>{{ snatch.indexer }}</td>
                                 </tr>
-                                <tr>
-                                    <td>Cell 3</td>
-                                    <td>Cell 4</td>
-                                </tr>
+								{% endfor %}
                             </tbody>
                             <caption>Snatched Torrents</caption>
                         </table>
@@ -61,14 +59,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Cell 1</td>
-                                    <td>Cell 2</td>
-                                </tr>
-                                <tr>
-                                    <td>Cell 3</td>
-                                    <td>Cell 4</td>
-                                </tr>
+								{% for release in announced %}
+								<tr>
+									<td>{{ release.title }}</td>
+									<td>{{ release.indexer }}</td>
+								</tr>
+								{% endfor %}
                             </tbody>
                             <caption>Announced Releases</caption>
                         </table>

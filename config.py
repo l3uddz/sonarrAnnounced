@@ -9,6 +9,8 @@ def init():
     # Settings
     cfg.init('server.host', 'localhost')
     cfg.init('server.port', '3467')
+    cfg.init('server.user', 'admin')
+    cfg.init('server.pass', 'password')
 
     cfg.init('sonarr.apikey', '')
     cfg.init('sonarr.url', 'http://localhost:8989')
