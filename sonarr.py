@@ -1,8 +1,7 @@
-import asyncio
 import datetime
 import logging
 
-from aiohttp import ClientSession
+import requests
 
 import config
 
@@ -11,11 +10,10 @@ logger.setLevel(logging.DEBUG)
 cfg = config.init()
 
 
-@asyncio.coroutine
 def wanted(title, download_link, indexer):
     global cfg
-
     approved = False
+
     logger.debug("Notifying Sonarr of release from %s: %s @ %s", indexer, title, download_link)
 
     headers = {'X-Api-Key': cfg['sonarr.apikey']}
@@ -27,14 +25,8 @@ def wanted(title, download_link, indexer):
         'indexer': indexer
     }
 
-    with ClientSession(headers=headers) as session:
-        req = yield from session.post(url="{}/api/release/push".format(cfg['sonarr.url']), params=params)
-        resp = yield from req.json()
-
-        if 'approved' in resp:
-            approved = resp['approved']
+    resp = requests.post(url="{}/api/release/push".format(cfg['sonarr.url']), headers=headers, params=params)
+    if 'approved' in resp:
+        approved = resp['approved']
 
     return approved
-
-
-

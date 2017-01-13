@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import socket
 
@@ -17,7 +16,6 @@ cfg = config.init()
 
 class IRC(BotBase):
     tracking = None
-    loop = None
 
     # temp fix until pydle handles connect failures
     def connect(self, *args, **kwargs):
@@ -26,9 +24,8 @@ class IRC(BotBase):
         except socket.error:
             self.on_disconnect(expected=False)
 
-    def set_tracker(self, track, loop):
+    def set_tracker(self, track):
         self.tracking = track
-        self.loop = loop
 
     def on_connect(self):
         logger.info("Connected to: %s, joining %s", self.tracking['irc_host'], self.tracking['irc_channel'])
@@ -43,7 +40,7 @@ class IRC(BotBase):
         if source[0] != '#':
             logger.debug("%s sent us a message: %s", target, message)
         else:
-            asyncio.run_coroutine_threadsafe(self.tracking['plugin'].parse(message), self.loop)
+            self.tracking['plugin'].parse(message)
 
     def on_invite(self, channel, by):
         if channel == self.tracking['irc_channel']:
@@ -51,7 +48,7 @@ class IRC(BotBase):
 
 
 @concurrent.threaded
-def start_irc(trackers, loop):
+def start_irc(trackers):
     global cfg
 
     pool = pydle.ClientPool()
@@ -61,7 +58,7 @@ def start_irc(trackers, loop):
         nick = cfg["{}.nick".format(tracker['name'].lower())]
         client = IRC(nick)
 
-        client.set_tracker(tracker, loop)
+        client.set_tracker(tracker)
         try:
             pool.connect(client, hostname=tracker['irc_host'], port=tracker['irc_port'],
                          tls=tracker['irc_tls'], tls_verify=tracker['irc_tls_verify'])

@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 import config
@@ -35,11 +34,8 @@ if cfg['bot.debug_console']:
 logger = rootLogger.getChild("BOT")
 logger.setLevel(logging.DEBUG)
 
-# Event loop
-loop = asyncio.get_event_loop()
-
 # Trackers
-trackers = Trackers(loop)
+trackers = Trackers()
 if len(trackers.loaded) <= 0:
     logger.info("No trackers were initialized, exiting...")
     quit()
@@ -48,5 +44,5 @@ if len(trackers.loaded) <= 0:
 # MAIN ENTRY
 ############################################################
 if __name__ == "__main__":
-    irc.start_irc(trackers, loop)
+    irc.start_irc(trackers)
     webui.run()

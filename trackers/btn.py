@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 import config
@@ -31,7 +30,6 @@ logger.setLevel(logging.DEBUG)
 torrent_title = None
 
 
-@asyncio.coroutine
 def parse(announcement):
     global name, torrent_title
     decolored = utils.strip_irc_color_codes(announcement)
@@ -46,7 +44,7 @@ def parse(announcement):
     if torrent_id is not None and torrent_title is not None:
         download_link = get_torrent_link(torrent_id, utils.replace_spaces(torrent_title, '.'))
 
-        approved = yield from sonarr.wanted(torrent_title, download_link, name)
+        approved = sonarr.wanted(torrent_title, download_link, name)
         if approved:
             logger.debug("Sonarr approved release: %s", torrent_title)
         else:
@@ -62,7 +60,6 @@ def get_torrent_link(torrent_id, torrent_name):
 
 
 # Initialize tracker
-@asyncio.coroutine
 def init():
     global auth_key, torrent_pass
 

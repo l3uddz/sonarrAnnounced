@@ -9,13 +9,11 @@ logger.setLevel(logging.DEBUG)
 
 
 class Trackers(object):
-    loop = None
     plugin_base = None
     source = None
     loaded = []
 
-    def __init__(self, loop):
-        self.loop = loop
+    def __init__(self):
         self.plugin_base = PluginBase(package='trackers')
         self.source = self.plugin_base.make_plugin_source(
             searchpath=['./trackers'],
@@ -26,7 +24,7 @@ class Trackers(object):
 
         for tmp in self.source.list_plugins():
             tracker = self.source.load_plugin(tmp)
-            loaded = self.loop.run_until_complete(tracker.init())
+            loaded = tracker.init()
             if loaded:
                 logger.info("Initialized tracker: %s", tracker.name)
 
