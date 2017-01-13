@@ -1,8 +1,8 @@
 deco==0.4.1
 Flask==0.12
 Flask_HTTPAuth==3.2.1
-peewee==2.8.5
 pluginbase==0.5
+pony==0.7.1
 profig==0.4.1
 pydle==0.8.3
 requests==2.12.4

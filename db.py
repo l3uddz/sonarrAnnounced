@@ -1,28 +1,22 @@
 import logging
 
-from peewee import *
+from pony.orm import *
 
 logger = logging.getLogger("DB")
 logger.setLevel(logging.DEBUG)
 
-db = SqliteDatabase('brain.db', threadlocals=True)
+db = Database()
 
 
-class Announced(Model):
-    title = CharField()
-    indexer = CharField()
-
-    class Meta:
-        database = db
+class Announced(db.Entity):
+    title = Required(str)
+    indexer = Required(str)
 
 
-class Snatched(Model):
-    title = CharField()
-    indexer = CharField()
-
-    class Meta:
-        database = db
+class Snatched(db.Entity):
+    title = Required(str)
+    indexer = Required(str)
 
 
-db.connect()
-db.create_tables([Announced, Snatched], safe=True)
+db.bind('sqlite', 'brain.db', create_db=True)
+db.generate_mapping(create_tables=True)
