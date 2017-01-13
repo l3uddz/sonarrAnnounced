@@ -7,6 +7,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import send_from_directory
+from flask_httpauth import HTTPBasicAuth
 
 import config
 
@@ -14,6 +15,7 @@ logger = logging.getLogger("WEB-UI")
 logger.setLevel(logging.DEBUG)
 
 app = Flask("sonarrAnnounced")
+auth = HTTPBasicAuth()
 cfg = config.init()
 
 
@@ -22,17 +24,29 @@ def run():
 
 
 # panel routes
+@auth.get_password
+def get_pw(username):
+    if not username == cfg['server.user']:
+        return None
+    else:
+        return cfg['server.pass']
+    return None
+
+
 @app.route('/assets/<path:path>')
+@auth.login_required
 def send_asset(path):
     return send_from_directory("templates/assets/{}".format(os.path.dirname(path)), os.path.basename(path))
 
 
 @app.route("/")
+@auth.login_required
 def index():
     return render_template('index.html')
 
 
 @app.route("/trackers", methods=['GET', 'POST'])
+@auth.login_required
 def trackers():
     if request.method == 'POST':
         if 'iptorrents_torrentpass' in request.form:
@@ -61,6 +75,7 @@ def trackers():
 
 
 @app.route("/logs")
+@auth.login_required
 def logs():
     logs = []
     with open('status.log') as f:
@@ -77,10 +92,13 @@ def logs():
 
 
 @app.route("/settings", methods=['GET', 'POST'])
+@auth.login_required
 def settings():
     if request.method == 'POST':
         cfg['server.host'] = request.form['server_host']
         cfg['server.port'] = request.form['server_port']
+        cfg['server.user'] = request.form['server_user']
+        cfg['server.pass'] = request.form['server_pass']
 
         cfg['sonarr.url'] = request.form['sonarr_url']
         cfg['sonarr.apikey'] = request.form['sonarr_apikey']
@@ -102,8 +120,8 @@ def settings():
 
 
 @app.route("/sonarr/check", methods=['POST'])
+@auth.login_required
 def check():
-    logger.debug("checking sonarr api key")
     try:
         data = request.json
         if 'apikey' in data and 'url' in data:

@@ -1,6 +1,8 @@
 [server]
 host = localhost
 port = 3467
+user = admin
+pass = password
 
 [bot]
 debug_file = true

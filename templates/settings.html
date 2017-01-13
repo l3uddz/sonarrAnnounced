@@ -32,6 +32,10 @@
                 <input class="form-control input-sm" type="text" name="server_host" value="{{ conf['server.host'] }}" required="" placeholder="localhost" style="margin-bottom:0.2cm;width:75%;">
                 <label for="server_port">Port </label>
                 <input class="form-control input-sm" type="number" name="server_port" value="{{ conf['server.port'] }}" required="" placeholder="8080" style="width:20%;">
+                <label for="server_user">User </label>
+                <input class="form-control input-sm" type="text" name="server_user" value="{{ conf['server.user'] }}" required="" placeholder="admin" style="margin-bottom:0.2cm;width:75%;">
+                <label for="server_pass">Password </label>
+                <input class="form-control input-sm" type="password" name="server_pass" value="{{ conf['server.user'] }}" required="" placeholder="Password">
                 <legend>Server</legend>
             </fieldset>
             <fieldset style="padding-bottom:0.50cm;">
@@ -60,6 +64,7 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/common.js"></script>
+    <script src="assets/js/logs.js"></script>
     <script src="assets/js/settings.js"></script>
 </body>
 
