@@ -1,9 +1,12 @@
 import logging
+import os
+import re
 
 import requests
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import send_from_directory
 
 import config
 
@@ -19,6 +22,11 @@ def run():
 
 
 # panel routes
+@app.route('/assets/<path:path>')
+def send_asset(path):
+    return send_from_directory("templates/assets/{}".format(os.path.dirname(path)), os.path.basename(path))
+
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -54,7 +62,18 @@ def trackers():
 
 @app.route("/logs")
 def logs():
-    return render_template('logs.html')
+    logs = []
+    with open('status.log') as f:
+        for line in f:
+            log_parts = re.search('(.+) - (.+) - (.+)', line)
+            if log_parts:
+                logs.append({'time': log_parts.group(1),
+                             'tag': log_parts.group(2),
+                             'msg': log_parts.group(3)})
+            else:
+                break
+
+    return render_template('logs.html', logs=logs)
 
 
 @app.route("/settings", methods=['GET', 'POST'])
