@@ -32,7 +32,7 @@ def parse(announcement):
     if 'TV/' not in announcement:
         return
     decolored = utils.strip_irc_color_codes(announcement)
-    logger.debug("Parsing: %s", decolored)
+#    logger.debug("Parsing: %s", decolored)
 
     # extract required information from announcement
     torrent_title = utils.substr(decolored, '] ', ' -', True)

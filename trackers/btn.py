@@ -33,7 +33,7 @@ torrent_title = None
 def parse(announcement):
     global name, torrent_title
     decolored = utils.strip_irc_color_codes(announcement)
-    logger.debug("Parsing: %s", decolored)
+#    logger.debug("Parsing: %s", decolored)
 
     # extract required information from decolored
     if 'NOW BROADCASTING' in decolored:

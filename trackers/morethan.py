@@ -30,7 +30,7 @@ logger.setLevel(logging.DEBUG)
 # Parse announcement message
 def parse(announcement):
     global name
-    logger.debug("Parsing: %s", announcement)
+#    logger.debug("Parsing: %s", announcement)
 
     # extract required information from announcement
     torrent_title = utils.str_before(announcement, ' - ')
