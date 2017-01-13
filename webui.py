@@ -44,8 +44,8 @@ def send_asset(path):
 @auth.login_required
 @db.db_session
 def index():
-    return render_template('index.html', snatched=db.Snatched.select(),
-                           announced=db.Announced.select())
+    return render_template('index.html', snatched=db.Snatched.select().limit(15),
+                           announced=db.Announced.select().limit(15))
 
 
 @app.route("/trackers", methods=['GET', 'POST'])

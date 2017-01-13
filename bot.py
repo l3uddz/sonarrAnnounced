@@ -2,6 +2,7 @@ import logging
 
 import config
 import irc
+import manager
 import webui
 from trackers import Trackers
 
