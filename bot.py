@@ -1,10 +1,9 @@
 import asyncio
 import logging
 
-from aiohttp import web
-
 import config
 import irc
+import webui
 from trackers import Trackers
 
 ############################################################
@@ -45,12 +44,9 @@ if len(trackers.loaded) <= 0:
     logger.info("No trackers were initialized, exiting...")
     quit()
 
-# Web UI
-app = web.Application()
-
 ############################################################
 # MAIN ENTRY
 ############################################################
 if __name__ == "__main__":
     irc.start_irc(trackers, loop)
-    web.run_app(app, host=cfg['server.host'], port=int(cfg['server.port']))
+    webui.run()

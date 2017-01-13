@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sonarrAnnounced - Settings</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
+    <link rel="stylesheet" href="assets/css/user.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-default" style="margin-bottom:0.5cm;">
+        <div class="container">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="/"><i class="glyphicon glyphicon-phone"></i>sonarrAnnounced</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li role="presentation"><a href="/trackers">Trackers </a></li>
+                    <li role="presentation"><a href="/logs">Logs </a></li>
+                    <li class="active" role="presentation"><a href="/settings">Settings </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <form method="post" target="_self">
+            <fieldset style="padding-bottom:0.50cm;">
+                <label for="server_host">Host </label>
+                <input class="form-control input-sm" type="text" name="server_host" value="{{ conf['server.host'] }}" required="" placeholder="localhost" style="margin-bottom:0.2cm;width:75%;">
+                <label for="server_port">Port </label>
+                <input class="form-control input-sm" type="number" name="server_port" value="{{ conf['server.port'] }}" required="" placeholder="8080" style="width:20%;">
+                <legend>Server</legend>
+            </fieldset>
+            <fieldset style="padding-bottom:0.50cm;">
+                <legend>Bot </legend>
+                <label>Debug </label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="debug_file" {% if conf['bot.debug_file'] %}checked=""{% endif %}>Log to File</label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="debug_console" {% if conf['bot.debug_console'] %}checked=""{% endif %}>Log to Console</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Sonarr </legend>
+                <label for="sonarr_url">URL </label>
+                <input class="form-control input-sm" type="text" name="sonarr_url" value="{{ conf['sonarr.url'] }}" required="" placeholder="http://localhost:8989" id="sonarr_url" style="margin-bottom:0.2cm;width:75%;">
+                <label for="sonarr_apikey">API Key</label>
+                <input class="form-control input-sm" type="text" name="sonarr_apikey" value="{{ conf['sonarr.apikey'] }}" required="" placeholder="Retrieve from Sonarr Settings" id="sonarr_apikey" style="width:75%;margin-bottom:0.1cm;">
+                <button class="btn btn-default btn-xs pull-right" type="button" id="sonarr_check" style="margin-right:25%;">Check </button>
+            </fieldset>
+            <button class="btn btn-primary" type="submit" id="save">Save </button>
+        </form>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/settings.js"></script>
+</body>
+
+</html>

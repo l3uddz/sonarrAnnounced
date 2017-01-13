@@ -1,5 +1,7 @@
 aiohttp==1.2.0
 deco==0.4.1
+Flask==0.12
 pluginbase==0.5
 profig==0.4.1
 pydle==0.8.3
+requests==2.12.4

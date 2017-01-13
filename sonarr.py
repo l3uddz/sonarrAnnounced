@@ -35,3 +35,6 @@ def wanted(title, download_link, indexer):
             approved = resp['approved']
 
     return approved
+
+
+

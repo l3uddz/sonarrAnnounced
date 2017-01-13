@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sonarrAnnounced - Trackers</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
+    <link rel="stylesheet" href="assets/css/user.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-default" style="margin-bottom:0.5cm;">
+        <div class="container">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="/"><i class="glyphicon glyphicon-phone"></i>sonarrAnnounced</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active" role="presentation"><a href="/trackers">Trackers </a></li>
+                    <li role="presentation"><a href="/logs">Logs </a></li>
+                    <li role="presentation"><a href="/settings">Settings </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_iptorrents">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">IPTorrents </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="iptorrents_torrentpass">Torrent Pass</label>
+                                <input class="form-control" type="text" name="iptorrents_torrentpass" value="{{ conf['iptorrents.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
+                                <label for="iptorrents_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="iptorrents_nick" value="{{ conf['iptorrents.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="iptorrents_nickpassword">IRC Password </label>
+                                <input class="form-control" type="password" name="iptorrents_nickpassword" value="{{ conf['iptorrents.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_morethan">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">MoreThan </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="morethan_authkey">Authkey </label>
+                                <input class="form-control" type="text" name="morethan_authkey" value="{{ conf['morethan.auth_key'] }}" placeholder="Auth Key" style="margin-bottom:0.2cm;">
+                                <label for="morethan_torrentpass">Torrent Pass</label>
+                                <input class="form-control" type="text" name="morethan_torrentpass" value="{{ conf['morethan.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
+                                <label for="morethan_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="morethan_nick" value="{{ conf['morethan.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="morethan_nickpassword">IRC Nickname</label>
+                                <input class="form-control" type="password" name="morethan_nickpassword" value="{{ conf['morethan.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_morethan">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">BTN </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="btn_authkey">Authkey </label>
+                                <input class="form-control" type="text" name="btn_authkey" value="{{ conf['btn.auth_key'] }}" placeholder="Auth Key" style="margin-bottom:0.2cm;">
+                                <label for="btn_torrentpass">Torrent Pass</label>
+                                <input class="form-control" type="text" name="btn_torrentpass" value="{{ conf['btn.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
+                                <label for="btn_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="btn_nick" value="{{ conf['btn.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="btn_nickpassword">IRC Nickname</label>
+                                <input class="form-control" type="password" name="btn_nickpassword" value="{{ conf['btn.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/settings.js"></script>
+</body>
+
+</html>
