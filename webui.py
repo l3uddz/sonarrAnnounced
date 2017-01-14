@@ -24,6 +24,13 @@ def run():
     app.run(debug=False, host=cfg['server.host'], port=int(cfg['server.port']), use_reloader=False)
 
 
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+
 # panel routes
 @auth.get_password
 def get_pw(username):
@@ -44,8 +51,8 @@ def send_asset(path):
 @auth.login_required
 @db.db_session
 def index():
-    return render_template('index.html', snatched=db.Snatched.select().limit(15),
-                           announced=db.Announced.select().limit(15))
+    return render_template('index.html', snatched=db.Snatched.select().order_by(db.Snatched.date),
+                           announced=db.Announced.select().order_by(db.Announced.date))
 
 
 @app.route("/trackers", methods=['GET', 'POST'])
@@ -88,8 +95,6 @@ def logs():
                 logs.append({'time': log_parts.group(1),
                              'tag': log_parts.group(2),
                              'msg': log_parts.group(3)})
-            else:
-                break
 
     return render_template('logs.html', logs=logs)
 

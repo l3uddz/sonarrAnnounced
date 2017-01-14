@@ -2,9 +2,9 @@ import logging
 import socket
 
 import pydle
-from deco import *
 
 import config
+import manager
 
 BotBase = pydle.featurize(pydle.features.RFC1459Support, pydle.features.TLSSupport)
 
@@ -47,11 +47,13 @@ class IRC(BotBase):
             self.join(self.tracking['irc_channel'])
 
 
-@concurrent.threaded
-def start_irc(trackers):
-    global cfg
+pool = pydle.ClientPool()
+clients = []
 
-    pool = pydle.ClientPool()
+
+def start(trackers):
+    global cfg, pool, clients
+
     for tracker in trackers.loaded:
         logger.info("Pooling server: %s:%d %s", tracker['irc_host'], tracker['irc_port'], tracker['irc_channel'])
 
@@ -59,10 +61,22 @@ def start_irc(trackers):
         client = IRC(nick)
 
         client.set_tracker(tracker)
+        clients.append(client)
         try:
             pool.connect(client, hostname=tracker['irc_host'], port=tracker['irc_port'],
                          tls=tracker['irc_tls'], tls_verify=tracker['irc_tls_verify'])
         except Exception as ex:
             logger.exception("Error while connecting to: %s", tracker['irc_host'])
 
-    pool.handle_forever()
+    try:
+        pool.handle_forever()
+    except Exception as ex:
+        logger.exception("Exception pool.handle_forever:")
+
+
+def stop():
+    global pool
+
+    for tracker in clients:
+        logger.debug("Removing tracker: %s", tracker.tracking['name'])
+        pool.disconnect(tracker)

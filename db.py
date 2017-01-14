@@ -1,5 +1,5 @@
 import logging
-
+import datetime
 from pony.orm import *
 
 logger = logging.getLogger("DB")
@@ -9,11 +9,13 @@ db = Database()
 
 
 class Announced(db.Entity):
+    date = Required(datetime.datetime)
     title = Required(str)
     indexer = Required(str)
 
 
 class Snatched(db.Entity):
+    date = Required(datetime.datetime)
     title = Required(str)
     indexer = Required(str)
 

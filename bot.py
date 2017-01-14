@@ -1,10 +1,7 @@
 import logging
 
 import config
-import irc
 import manager
-import webui
-from trackers import Trackers
 
 ############################################################
 # Configuration
@@ -35,15 +32,8 @@ if cfg['bot.debug_console']:
 logger = rootLogger.getChild("BOT")
 logger.setLevel(logging.DEBUG)
 
-# Trackers
-trackers = Trackers()
-if len(trackers.loaded) <= 0:
-    logger.info("No trackers were initialized, exiting...")
-    quit()
-
 ############################################################
 # MAIN ENTRY
 ############################################################
 if __name__ == "__main__":
-    irc.start_irc(trackers)
-    webui.run()
+    manager.run()
