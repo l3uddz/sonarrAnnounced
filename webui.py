@@ -51,8 +51,8 @@ def send_asset(path):
 @auth.login_required
 @db.db_session
 def index():
-    return render_template('index.html', snatched=db.Snatched.select().order_by(db.Snatched.date),
-                           announced=db.Announced.select().order_by(db.Announced.date))
+    return render_template('index.html', snatched=db.Snatched.select().order_by(db.desc(db.Snatched.date)).limit(20),
+                           announced=db.Announced.select().order_by(db.desc(db.Announced.date)).limit(20))
 
 
 @app.route("/trackers", methods=['GET', 'POST'])
