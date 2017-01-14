@@ -46,11 +46,13 @@ def parse(announcement):
     if torrent_id is not None and torrent_title is not None:
         download_link = get_torrent_link(torrent_id, utils.replace_spaces(torrent_title, '.'))
 
-        announced = db.Announced(date=datetime.datetime.now(), title=torrent_title, indexer=name)
+        announced = db.Announced(date=datetime.datetime.now(), title=utils.replace_spaces(torrent_title, '.'),
+                                 indexer=name)
         approved = sonarr.wanted(torrent_title, download_link, name)
         if approved:
             logger.debug("Sonarr approved release: %s", torrent_title)
-            snatched = db.Snatched(date=datetime.datetime.now(), title=torrent_title, indexer=name)
+            snatched = db.Snatched(date=datetime.datetime.now(), title=utils.replace_spaces(torrent_title, '.'),
+                                   indexer=name)
         else:
             logger.debug("Sonarr rejected release: %s", torrent_title)
         torrent_title = None
