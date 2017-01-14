@@ -28,8 +28,8 @@
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-md-5 col-md-offset-0" id="snatched_torrents">
-                    <div class="table-responsive">
+                <div class="col-md-5 col-md-offset-0">
+                    <div class="table-responsive" id="snatched_torrents">
                         <table class="table table-bordered table-condensed">
                             <thead>
                                 <tr>
@@ -37,7 +37,7 @@
                                     <th>Indexer </th>
                                 </tr>
                             </thead>
-                            <tbody>
+							<tbody>
 								{% for snatch in snatched %}
                                 <tr>
                                     <td>{{ snatch.title }}</td>
@@ -45,12 +45,12 @@
                                 </tr>
 								{% endfor %}
                             </tbody>
-                            <caption>Snatched Torrents</caption>
+                            <caption class="text-center text-success bg-success">Snatched Torrents</caption>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-7" id="parsed_announcements">
-                    <div class="table-responsive">
+                <div class="col-md-7">
+                    <div class="table-responsive" id="announced_torrents">
                         <table class="table table-bordered table-condensed">
                             <thead>
                                 <tr>
@@ -66,7 +66,7 @@
 								</tr>
 								{% endfor %}
                             </tbody>
-                            <caption>Announced Releases</caption>
+                            <caption class="text-center text-primary bg-info">Announced Releases</caption>
                         </table>
                     </div>
                 </div>
@@ -76,6 +76,8 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/common.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/logs.js"></script>
     <script src="assets/js/settings.js"></script>
 </body>
 
