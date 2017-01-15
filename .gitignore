@@ -13,6 +13,9 @@ __pycache__/
 *$py.class
 
 # Covers sonarrAnnounced sensitive info
+# logs
+*.log*
+
 # databases
 *.db
 
