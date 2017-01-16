@@ -25,7 +25,7 @@ def wanted(title, download_link, indexer):
         'indexer': indexer
     }
 
-    resp = requests.post(url="{}/api/release/push".format(cfg['sonarr.url']), headers=headers, params=params)
+    resp = requests.post(url="{}/api/release/push".format(cfg['sonarr.url']), headers=headers, params=params).json()
     if 'approved' in resp:
         approved = resp['approved']
 
