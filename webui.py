@@ -97,7 +97,7 @@ def logs():
     logs = []
     with open('status.log') as f:
         for line in f:
-            log_parts = re.search('(.+) - (.+) - (.+)', line)
+            log_parts = re.search('(^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})\s-\s(\S+)\s+-\s(.+)', line)
             if log_parts:
                 logs.append({'time': log_parts.group(1),
                              'tag': log_parts.group(2),
