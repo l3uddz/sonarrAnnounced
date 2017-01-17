@@ -4,7 +4,6 @@ import socket
 import pydle
 
 import config
-import manager
 
 BotBase = pydle.featurize(pydle.features.RFC1459Support, pydle.features.TLSSupport)
 
@@ -34,6 +33,10 @@ class IRC(BotBase):
         if nick_pass is not None and len(nick_pass) > 1:
             self.rawmsg('NICKSERV', 'IDENTIFY', cfg["{}.nick_pass".format(self.tracking['name'].lower())])
 
+        self.join(self.tracking['irc_channel'])
+
+    def on_raw_900(self, message):
+        logger.debug("Identified with NICKSERV - joining %s", self.tracking['irc_channel'])
         self.join(self.tracking['irc_channel'])
 
     def on_message(self, source, target, message):
