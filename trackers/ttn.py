@@ -89,8 +89,9 @@ def parse_torrent_title(message):
             return None
 
         video_details = m.group(2).split(' / ')
-        if len(video_details) < 6:
-            logger.debug("Was expecting 6 video detail parts, found: %d parts", len(video_details))
+        if len(video_details) < 5:
+            logger.debug("Was expecting atleast 5 video detail parts, found: %d parts (%s)", len(video_details),
+                         video_details)
             return None
 
         orig_title = m.group(1).replace(" - ", " ")
@@ -98,9 +99,12 @@ def parse_torrent_title(message):
             orig_title = orig_title.replace("@", "At.")
             orig_title = orig_title.replace("-", ".")
 
-        torrent_title = "{0} {1} {2} {3}-{4}".format(orig_title, video_details[3], video_details[0].upper(),
-                                                     video_details[1],
-                                                     video_details[5])
+        torrent_title = "{0} {1} {2} {3}".format(orig_title, video_details[3], video_details[0].upper(),
+                                                 video_details[1])
+        if len(video_details) > 5:
+            # there was a group attached to this release - add it
+            torrent_title += "-{}".format(video_details[5])
+
         return torrent_title
 
     return None
