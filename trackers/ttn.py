@@ -93,7 +93,12 @@ def parse_torrent_title(message):
             logger.debug("Was expecting 6 video detail parts, found: %d parts", len(video_details))
             return None
 
-        torrent_title = "{0} {1} {2} {3}-{4}".format(m.group(1).replace(" - ", " "), video_details[3], video_details[0].upper(),
+        orig_title = m.group(1).replace(" - ", " ")
+        if orig_title.startswith("@"):
+            orig_title = orig_title.replace("@", "At.")
+            orig_title = orig_title.replace("-", ".")
+
+        torrent_title = "{0} {1} {2} {3}-{4}".format(orig_title, video_details[3], video_details[0].upper(),
                                                      video_details[1],
                                                      video_details[5])
         return torrent_title
