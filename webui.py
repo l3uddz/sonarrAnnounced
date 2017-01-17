@@ -79,6 +79,13 @@ def trackers():
             cfg['btn.nick_pass'] = request.form['btn_nickpassword']
             logger.debug("saved btn settings")
 
+        if 'ttn_torrentpass' in request.form:
+            cfg['ttn.auth_key'] = request.form['ttn_authkey']
+            cfg['ttn.torrent_pass'] = request.form['ttn_torrentpass']
+            cfg['ttn.nick'] = request.form['ttn_nick']
+            cfg['ttn.nick_pass'] = request.form['ttn_nickpassword']
+            logger.debug("saved ttn settings")
+
         cfg.sync()
 
     return render_template('trackers.html')

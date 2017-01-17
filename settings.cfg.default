@@ -29,3 +29,9 @@ nick =
 nick_pass =
 auth_key = 
 torrent_pass = 
+
+[ttn]
+nick = 
+nick_pass = 
+auth_key = 
+torrent_pass = 

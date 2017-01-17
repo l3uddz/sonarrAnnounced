@@ -34,5 +34,10 @@ def init():
     cfg.init('btn.auth_key', '')
     cfg.init('btn.torrent_pass', '')
 
+    cfg.init('ttn.nick', '')
+    cfg.init('ttn.nick_pass', '')
+    cfg.init('ttn.auth_key', '')
+    cfg.init('ttn.torrent_pass', '')
+
     cfg.sync()
     return cfg

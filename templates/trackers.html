@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="margin-top:0.3cm;">
-                    <div class="panel panel-info" id="tracker_morethan">
+                    <div class="panel panel-info" id="tracker_btn">
                         <div class="panel-heading">
                             <h3 class="text-center panel-title">BTN </h3></div>
                         <div class="panel-body">
@@ -83,6 +83,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_ttn">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">TTN </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="ttn_authkey">Authkey </label>
+                                <input class="form-control" type="text" name="ttn_authkey" value="{{ conf['ttn.auth_key'] }}" placeholder="Auth Key" style="margin-bottom:0.2cm;">
+                                <label for="ttn_torrentpass">Torrent Pass</label>
+                                <input class="form-control" type="text" name="ttn_torrentpass" value="{{ conf['ttn.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
+                                <label for="ttn_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="ttn_nick" value="{{ conf['ttn.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="ttn_nickpassword">IRC Nickname</label>
+                                <input class="form-control" type="password" name="ttn_nickpassword" value="{{ conf['ttn.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </div>
@@ -90,6 +109,8 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/common.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/logs.js"></script>
     <script src="assets/js/settings.js"></script>
 </body>
 
