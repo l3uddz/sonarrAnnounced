@@ -1,5 +1,6 @@
 import datetime
 import logging
+import utils
 
 import requests
 
@@ -18,7 +19,7 @@ def wanted(title, download_link, indexer):
 
     headers = {'X-Api-Key': cfg['sonarr.apikey']}
     params = {
-        'title': title,
+        'title': utils.replace_spaces(title, '.'),
         'downloadUrl': download_link,
         'protocol': 'Torrent',
         'publishDate': datetime.datetime.now().isoformat(),
