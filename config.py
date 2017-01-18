@@ -39,5 +39,10 @@ def init():
     cfg.init('ttn.auth_key', '')
     cfg.init('ttn.torrent_pass', '')
 
+    cfg.init('freshon.nick', '')
+    cfg.init('freshon.nick_pass', '')
+    cfg.init('freshon.auth_key', '')
+    cfg.init('freshon.torrent_pass', '')
+
     cfg.sync()
     return cfg

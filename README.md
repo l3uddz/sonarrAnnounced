@@ -11,6 +11,7 @@ Python script to notify sonarr of tracker announcements from IRC announce channe
 2. MTV
 3. IPTorrents
 4. TTN
+5. Freshon
 
 Open to suggestions/pull requests!
 

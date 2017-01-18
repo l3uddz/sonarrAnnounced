@@ -86,6 +86,12 @@ def trackers():
             cfg['ttn.nick_pass'] = request.form['ttn_nickpassword']
             logger.debug("saved ttn settings")
 
+        if 'freshon_torrentpass' in request.form:
+            cfg['freshon.torrent_pass'] = request.form['freshon_torrentpass']
+            cfg['freshon.nick'] = request.form['freshon_nick']
+            cfg['freshon.nick_pass'] = request.form['freshon_nickpassword']
+            logger.debug("saved freshon settings")
+
         cfg.sync()
 
     return render_template('trackers.html')

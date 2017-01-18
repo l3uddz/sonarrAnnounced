@@ -38,7 +38,7 @@
                                 <input class="form-control" type="text" name="iptorrents_torrentpass" value="{{ conf['iptorrents.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
                                 <label for="iptorrents_nick">IRC Nickname</label>
                                 <input class="form-control" type="text" name="iptorrents_nick" value="{{ conf['iptorrents.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
-                                <label for="iptorrents_nickpassword">IRC Password </label>
+                                <label for="iptorrents_nickpassword">IRC Nickname Password</label>
                                 <input class="form-control" type="password" name="iptorrents_nickpassword" value="{{ conf['iptorrents.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
                                 <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
                             </form>
@@ -57,7 +57,7 @@
                                 <input class="form-control" type="text" name="morethan_torrentpass" value="{{ conf['morethan.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
                                 <label for="morethan_nick">IRC Nickname</label>
                                 <input class="form-control" type="text" name="morethan_nick" value="{{ conf['morethan.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
-                                <label for="morethan_nickpassword">IRC Nickname</label>
+                                <label for="morethan_nickpassword">IRC Nickname Password</label>
                                 <input class="form-control" type="password" name="morethan_nickpassword" value="{{ conf['morethan.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
                                 <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
                             </form>
@@ -76,7 +76,7 @@
                                 <input class="form-control" type="text" name="btn_torrentpass" value="{{ conf['btn.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
                                 <label for="btn_nick">IRC Nickname</label>
                                 <input class="form-control" type="text" name="btn_nick" value="{{ conf['btn.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
-                                <label for="btn_nickpassword">IRC Nickname</label>
+                                <label for="btn_nickpassword">IRC Nickname Password</label>
                                 <input class="form-control" type="password" name="btn_nickpassword" value="{{ conf['btn.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
                                 <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
                             </form>
@@ -95,8 +95,25 @@
                                 <input class="form-control" type="text" name="ttn_torrentpass" value="{{ conf['ttn.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
                                 <label for="ttn_nick">IRC Nickname</label>
                                 <input class="form-control" type="text" name="ttn_nick" value="{{ conf['ttn.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
-                                <label for="ttn_nickpassword">IRC Nickname</label>
+                                <label for="ttn_nickpassword">IRC Nickname Password</label>
                                 <input class="form-control" type="password" name="ttn_nickpassword" value="{{ conf['ttn.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_freshon">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">Freshon </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="freshon_torrentpass">Torrent Pass</label>
+                                <input class="form-control" type="text" name="freshon_torrentpass" value="{{ conf['freshon.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
+                                <label for="freshon_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="freshon_nick" value="{{ conf['freshon.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="freshon_nickpassword">IRC Nickname Password</label>
+                                <input class="form-control" type="password" name="freshon_nickpassword" value="{{ conf['freshon.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
                                 <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
                             </form>
                         </div>
