@@ -74,6 +74,9 @@ def replace_spaces(text, new):
 
 
 def strip_torrent_name(torrent_name):
-    stripped = torrent_name.replace('?', '').replace("'", '')
-    stripped = stripped.replace("/", '').replace('\\', '')
+    strip_chars = ['?', "'", '\\', '/', ':', ';']
+    stripped = torrent_name
+    for char in strip_chars:
+        stripped = stripped.replace(char, '')
+
     return stripped
