@@ -71,3 +71,9 @@ def find_tracker(lst, key, value):
 
 def replace_spaces(text, new):
     return re.sub('[ ]{1,}', new, text)
+
+
+def strip_torrent_name(torrent_name):
+    stripped = torrent_name.replace('?', '').replace("'", '')
+    stripped = stripped.replace("/", '').replace('\\', '')
+    return stripped
