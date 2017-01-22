@@ -94,10 +94,7 @@ def parse_torrent_title(message):
                          video_details)
             return None
 
-        orig_title = utils.strip_torrent_name(m.group(1).replace(' - ', ' '))
-        if orig_title.startswith("@"):
-            orig_title = orig_title.replace("@", "At.")
-        orig_title = orig_title.replace("-", ".")
+        orig_title = utils.formatted_torrent_name(m.group(1).replace(' - ', ' '))
 
         torrent_title = "{0} {1} {2} {3}".format(orig_title, video_details[3], video_details[0].upper(),
                                                  video_details[1])

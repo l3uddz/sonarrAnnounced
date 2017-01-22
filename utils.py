@@ -1,6 +1,8 @@
 import logging
 import re
 
+from unidecode import unidecode
+
 logger = logging.getLogger("UTILS")
 
 
@@ -73,10 +75,23 @@ def replace_spaces(text, new):
     return re.sub('[ ]{1,}', new, text)
 
 
-def strip_torrent_name(torrent_name):
-    strip_chars = ['?', "'", '\\', '/', ':', ';']
-    stripped = torrent_name
-    for char in strip_chars:
-        stripped = stripped.replace(char, '')
+def formatted_torrent_name(torrent_name):
+    chars = {
+        # strip chars
+        '?': '',
+        "'": '',
+        '\\': '',
+        '/': '',
+        ':': '',
+        ';': '',
+        # replace chars
+        '@': 'at.',
+        '&': 'and.',
+        '-': '.'
+    }
 
-    return stripped
+    formatted = unidecode(torrent_name)
+    for look, replace in chars.items():
+        formatted = formatted.replace(look, replace)
+
+    return formatted

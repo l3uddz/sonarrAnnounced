@@ -5,4 +5,5 @@ pony==0.7.1
 profig==0.4.1
 pydle==0.8.3
 requests==2.12.4
+Unidecode==0.04.20
 pythreadworker==0.6.0
