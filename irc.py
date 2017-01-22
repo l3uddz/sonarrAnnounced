@@ -15,6 +15,7 @@ cfg = config.init()
 
 class IRC(BotBase):
     tracking = None
+    RECONNECT_MAX_ATTEMPTS = 100
 
     # temp fix until pydle handles connect failures
     def connect(self, *args, **kwargs):
