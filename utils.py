@@ -86,12 +86,17 @@ def formatted_torrent_name(torrent_name):
         ';': '',
         # replace chars
         '@': 'at.',
-        '&': 'and.',
-        '-': '.'
+        '&': 'and.'
     }
 
     formatted = unidecode(torrent_name)
     for look, replace in chars.items():
         formatted = formatted.replace(look, replace)
+
+    # replace date hypons with .'s (some release titles with have - in, e.g. Hawaii.Five-O)
+    date_pattern = '(\d{4}-\d{2}-\d{2})'
+    m = re.search(date_pattern, formatted)
+    if m:
+        formatted = formatted.replace(m.group(0), m.group(0).replace('-', '.'))
 
     return formatted
