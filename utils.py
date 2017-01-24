@@ -76,6 +76,10 @@ def replace_spaces(text, new):
     return re.sub('[ ]{1,}', new, text)
 
 
+def replace_periods(text, new):
+    return re.sub('[.]{1,}', new, text)
+
+
 def formatted_torrent_name(torrent_name):
     chars = {
         # strip chars
@@ -100,6 +104,7 @@ def formatted_torrent_name(torrent_name):
     if m:
         formatted = formatted.replace(m.group(0), m.group(0).replace('-', '.'))
 
+    formatted = replace_periods(formatted, '.')
     return formatted
 
 
