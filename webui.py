@@ -11,6 +11,7 @@ from flask_httpauth import HTTPBasicAuth
 
 import config
 import db
+import sonarr
 
 logger = logging.getLogger("WEB-UI")
 logger.setLevel(logging.DEBUG)
@@ -160,6 +161,32 @@ def check():
         logger.exception("Exception while checking sonarr apikey:")
 
     return 'ERR'
+
+
+@app.route("/sonarr/notify", methods=['POST'])
+@auth.login_required
+@db.db_session
+def notify():
+    try:
+        data = request.json
+        if 'id' in data:
+            # Request to check this torrent again
+            announcement = db.Announced.get(id=data.get('id'))
+            if announcement is not None and len(announcement.title) > 0:
+                logger.debug("Checking announcement again: %s", announcement.title)
+
+                approved = sonarr.wanted(announcement.title, announcement.torrent, announcement.indexer)
+                if approved:
+                    logger.debug("Sonarr accepted the torrent this time!")
+                    return "OK"
+                else:
+                    logger.debug("Sonarr still refused this torrent...")
+                    return "ERR"
+
+    except Exception as ex:
+        logger.exception("Exception while notifying sonarr announcement:")
+
+    return "ERR"
 
 
 @app.context_processor
