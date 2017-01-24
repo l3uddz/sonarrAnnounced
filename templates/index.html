@@ -38,7 +38,7 @@
                     <table class="table table-bordered table-condensed">
                         <thead>
                         <tr>
-                            <th>Snatched</th>
+                            <th>When</th>
                             <th>Title</th>
                             <th>Indexer</th>
                         </tr>
@@ -61,6 +61,7 @@
                     <table class="table table-bordered table-condensed">
                         <thead>
                         <tr>
+                            <th>When</th>
                             <th>Title</th>
                             <th>Indexer</th>
                             <th>Actions</th>
@@ -69,6 +70,7 @@
                         <tbody>
                         {% for release in announced %}
                         <tr>
+                            <td>{{ format_timestamp(release.date) }}</td>
                             <td>{{ release.title }}</td>
                             <td>{{ release.indexer }}</td>
                             <td><a href="javascript:notify_sonarr('{{ release.id }}');"><i
