@@ -38,6 +38,7 @@
                     <table class="table table-bordered table-condensed">
                         <thead>
                         <tr>
+                            <th>Snatched</th>
                             <th>Title</th>
                             <th>Indexer</th>
                         </tr>
@@ -45,6 +46,7 @@
                         <tbody>
                         {% for snatch in snatched %}
                         <tr>
+                            <td>{{ format_timestamp(snatch.date) }}</td>
                             <td>{{ snatch.title }}</td>
                             <td>{{ snatch.indexer }}</td>
                         </tr>

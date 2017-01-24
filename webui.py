@@ -12,6 +12,7 @@ from flask_httpauth import HTTPBasicAuth
 import config
 import db
 import sonarr
+import utils
 
 logger = logging.getLogger("WEB-UI")
 logger.setLevel(logging.DEBUG)
@@ -193,3 +194,12 @@ def notify():
 def inject_conf_in_all_templates():
     global cfg
     return dict(conf=cfg)
+
+
+@app.context_processor
+def utility_processor():
+    def format_timestamp(timestamp):
+        formatted = utils.human_datetime(timestamp)
+        return formatted
+
+    return dict(format_timestamp=format_timestamp)
