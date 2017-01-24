@@ -93,7 +93,7 @@ def formatted_torrent_name(torrent_name):
     for look, replace in chars.items():
         formatted = formatted.replace(look, replace)
 
-    # replace date hypons with .'s (some release titles with have - in, e.g. Hawaii.Five-O)
+    # replace date hypons with .'s (some release titles will have - in it, e.g. Hawaii.Five-O.S01E01...)
     date_pattern = '(\d{4}-\d{2}-\d{2})'
     m = re.search(date_pattern, formatted)
     if m:
