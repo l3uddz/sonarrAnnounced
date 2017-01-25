@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
     <link rel="stylesheet" href="assets/css/user.css">
+    <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="assets/css/toastr.css">
 </head>
@@ -34,7 +35,7 @@
     <div class="container-fluid" style="padding-left:25px;padding-right:25px;">
         <div class="row">
             <div class="col-md-6 col-md-offset-0">
-                <div class="table-responsive" id="snatched_torrents" style="table-layout:fixed;word-wrap:break-word;">
+                <div class="table-responsive" id="snatched_torrents">
                     <table class="table table-bordered table-condensed">
                         <thead>
                         <tr>
@@ -47,7 +48,7 @@
                         {% for snatch in snatched %}
                         <tr>
                             <td>{{ format_timestamp(snatch.date) }}</td>
-                            <td>{{ snatch.title }}</td>
+                            <td class="torrent">{{ snatch.title }}</td>
                             <td>{{ snatch.indexer }}</td>
                         </tr>
                         {% endfor %}
@@ -57,7 +58,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="table-responsive" id="announced_torrents" style="table-layout:fixed;word-wrap:break-word;">
+                <div class="table-responsive" id="announced_torrents">
                     <table class="table table-bordered table-condensed">
                         <thead>
                         <tr>
@@ -71,7 +72,7 @@
                         {% for release in announced %}
                         <tr>
                             <td>{{ format_timestamp(release.date) }}</td>
-                            <td>{{ release.title }}</td>
+                            <td class="torrent">{{ release.title }}</td>
                             <td>{{ release.indexer }}</td>
                             <td><a href="javascript:notify_sonarr('{{ release.id }}');"><i
                                     class="glyphicon glyphicon-transfer" data-bs-hover-animate="swing"

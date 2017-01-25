@@ -1,0 +1,14 @@
+table {
+  table-layout:fixed;
+}
+
+table tbody .torrent {
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+table tr th:nth-child(2) {
+  width:60%;
+}
+
