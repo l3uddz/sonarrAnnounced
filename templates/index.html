@@ -39,17 +39,17 @@
                     <table class="table table-bordered table-condensed">
                         <thead>
                         <tr>
-                            <th>When</th>
-                            <th>Title</th>
-                            <th>Indexer</th>
+                            <th class="col-xs-2">When</th>
+                            <th class="col-xs-2">Indexer</th>
+                            <th class="col-xs-8">Title</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for snatch in snatched %}
                         <tr>
                             <td>{{ format_timestamp(snatch.date) }}</td>
-                            <td class="torrent">{{ snatch.title }}</td>
                             <td>{{ snatch.indexer }}</td>
+                            <td>{{ snatch.title }}</td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -62,18 +62,18 @@
                     <table class="table table-bordered table-condensed">
                         <thead>
                         <tr>
-                            <th>When</th>
-                            <th>Title</th>
-                            <th>Indexer</th>
-                            <th>Actions</th>
+                            <th class="col-xs-2">When</th>
+                            <th class="col-xs-2">Indexer</th>
+                            <th class="col-xs-6">Title</th>
+                            <th class="col-xs-2">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for release in announced %}
                         <tr>
                             <td>{{ format_timestamp(release.date) }}</td>
-                            <td class="torrent">{{ release.title }}</td>
                             <td>{{ release.indexer }}</td>
+                            <td>{{ release.title }}</td>
                             <td><a href="javascript:notify_sonarr('{{ release.id }}');"><i
                                     class="glyphicon glyphicon-transfer" data-bs-hover-animate="swing"
                                     id="sonarr_notify" title="Notify sonarr"
