@@ -40,7 +40,7 @@ class IRC(BotBase):
         super().on_raw(message)
 
         identified_string = "MODE {} +r".format(cfg["{}.nick".format(self.tracking['name'].lower())])
-        if identified_string in message.__str__():
+        if identified_string in message._raw:
             logger.debug("Identified with NICKSERV - joining %s", self.tracking['irc_channel'])
             self.join(self.tracking['irc_channel'])
 
