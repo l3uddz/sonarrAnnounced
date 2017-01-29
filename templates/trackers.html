@@ -119,6 +119,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_hdtorrents">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">HDTorrents </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="hdtorrents_cookies">Cookies </label>
+                                <input class="form-control" type="text" name="hdtorrents_cookies" value="{{ conf['hdtorrents.cookies'] }}" placeholder="Cookies" style="margin-bottom:0.2cm;">
+                                <label for="hdtorrents_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="hdtorrents_nick" value="{{ conf['hdtorrents.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="hdtorrents_nickpassword">IRC Nickname Password</label>
+                                <input class="form-control" type="password" name="hdtorrents_nickpassword" value="{{ conf['hdtorrents.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </div>

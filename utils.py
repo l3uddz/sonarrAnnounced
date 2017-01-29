@@ -1,10 +1,13 @@
 import datetime
 import logging
 import re
+from pathlib import Path
 
+import requests
 from unidecode import unidecode
 
 logger = logging.getLogger("UTILS")
+logger.setLevel(logging.DEBUG)
 
 
 #############################################################
@@ -148,3 +151,34 @@ def human_datetime(date_time):
     if not (xdays or months or years):
         datelets.append('%d minute%s' % (minutes, plural(minutes)))
     return ', '.join(datelets) + ' ago.'
+
+
+def download_torrent(tracker, torrent_id, cookies, url):
+    torrent_path = ''
+
+    try:
+        # generate filename
+        torrents_dir = Path('torrents', tracker)
+        if not torrents_dir.exists():
+            torrents_dir.mkdir(parents=True)
+        torrent_file = "{}.torrent".format(torrent_id)
+        torrent_path = torrents_dir / torrent_file
+
+        # download torrent
+        response = requests.get(url, cookies=cookies, stream=True)
+        with torrent_path.open('wb') as handle:
+            if not response.ok:
+                logger.debug("Unexpected response from %s while download_torrent: status_code: %d", tracker,
+                             response.status_code)
+                return None
+
+            for chunk in response.iter_content(chunk_size=512):
+                if chunk:
+                    handle.write(chunk)
+
+        return torrent_path
+
+    except Exception as ex:
+        logger.exception("Exception while download_torrent: %s to %s", url, torrent_path)
+
+    return None

@@ -4,8 +4,10 @@ import re
 
 import requests
 from flask import Flask
+from flask import abort
 from flask import render_template
 from flask import request
+from flask import send_file
 from flask import send_from_directory
 from flask_httpauth import HTTPBasicAuth
 
@@ -20,9 +22,12 @@ logger.setLevel(logging.DEBUG)
 app = Flask("sonarrAnnounced")
 auth = HTTPBasicAuth()
 cfg = config.init()
+trackers = None
 
 
-def run():
+def run(loaded_trackers):
+    global trackers
+    trackers = loaded_trackers
     app.run(debug=False, host=cfg['server.host'], port=int(cfg['server.port']), use_reloader=False)
 
 
@@ -31,6 +36,38 @@ def shutdown_server():
     if func is None:
         raise RuntimeError('Not running with the Werkzeug Server')
     func()
+
+
+# mitm tracker torrent route
+@app.route('/mitm/<tracker>/<torrent_id>/<torrent_name>')
+def serve_torrent(tracker, torrent_id, torrent_name):
+    global trackers
+    found_tracker = None
+
+    logger.debug("Requested MITM: %s (%s) from tracker: %s", torrent_name, torrent_id, tracker)
+    try:
+        found_tracker = trackers.get_tracker(tracker)
+        if found_tracker is not None:
+            # ask tracker for torrent url
+            download_url = found_tracker['plugin'].get_real_torrent_link(torrent_id, torrent_name)
+            # ask tracker for cookies
+            cookies = found_tracker['plugin'].get_cookies()
+
+            if download_url is not None and cookies is not None:
+                # download torrent
+                torrent_path = utils.download_torrent(tracker, torrent_id, cookies, download_url)
+                if torrent_path is not None:
+                    # serve torrent
+                    logger.debug("Serving torrent: %s", torrent_path)
+                    return send_file(filename_or_fp=torrent_path.__str__())
+
+    except AttributeError:
+        logger.debug("Tracker was not configured correctly for MITM torrent requests! "
+                     "Required methods: get_real_torrent_link() and get_cookies()")
+    except Exception as ex:
+        logger.exception("Unexpected exception occurred at serve_torrent:")
+
+    return abort(404)
 
 
 # panel routes
@@ -93,6 +130,12 @@ def trackers():
             cfg['freshon.nick'] = request.form['freshon_nick']
             cfg['freshon.nick_pass'] = request.form['freshon_nickpassword']
             logger.debug("saved freshon settings")
+
+        if 'hdtorrents_cookies' in request.form:
+            cfg['hdtorrents.cookies'] = request.form['hdtorrents_cookies']
+            cfg['hdtorrents.nick'] = request.form['hdtorrents_nick']
+            cfg['hdtorrents.nick_pass'] = request.form['hdtorrents_nickpassword']
+            logger.debug("saved hdtorrents settings")
 
         cfg.sync()
 

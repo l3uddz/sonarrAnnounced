@@ -32,9 +32,17 @@ class IRC(BotBase):
 
         nick_pass = cfg["{}.nick_pass".format(self.tracking['name'].lower())]
         if nick_pass is not None and len(nick_pass) > 1:
-            self.rawmsg('NICKSERV', 'IDENTIFY', cfg["{}.nick_pass".format(self.tracking['name'].lower())])
+            self.rawmsg('NICKSERV', 'IDENTIFY', nick_pass)
 
         self.join(self.tracking['irc_channel'])
+
+    def on_raw(self, message):
+        super().on_raw(message)
+
+        identified_string = "MODE {} +r".format(cfg["{}.nick".format(self.tracking['name'].lower())])
+        if identified_string in message.__str__():
+            logger.debug("Identified with NICKSERV - joining %s", self.tracking['irc_channel'])
+            self.join(self.tracking['irc_channel'])
 
     def on_raw_900(self, message):
         logger.debug("Identified with NICKSERV - joining %s", self.tracking['irc_channel'])

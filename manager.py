@@ -23,7 +23,7 @@ def run():
         quit()
 
     thread_irc = irc_task(trackers)
-    thread_webui = webui_task()
+    thread_webui = webui_task(trackers)
 
     thread_irc.fire('START')
     thread_webui.fire('START')
@@ -58,7 +58,7 @@ def irc_task(trackers):
     return worker.start()
 
 
-def webui_task():
+def webui_task(trackers):
     worker = Worker()
     working = True
 
@@ -67,7 +67,7 @@ def webui_task():
         logger.debug("Start WebUI Task signaled")
         while working:
             try:
-                webui.run()
+                webui.run(trackers)
             except Exception as e:
                 logger.exception("Exception webui_task START: ")
 

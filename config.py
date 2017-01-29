@@ -44,5 +44,9 @@ def init():
     cfg.init('freshon.auth_key', '')
     cfg.init('freshon.torrent_pass', '')
 
+    cfg.init('hdtorrents.nick', '')
+    cfg.init('hdtorrents.nick_pass', '')
+    cfg.init('hdtorrents.cookies', '')
+
     cfg.sync()
     return cfg
