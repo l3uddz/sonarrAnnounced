@@ -32,6 +32,8 @@ logger.setLevel(logging.DEBUG)
 # Parse announcement message
 @db.db_session
 def parse(announcement):
+    global name
+
     if 'TV/' not in announcement:
         return
     decolored = utils.strip_irc_color_codes(announcement)

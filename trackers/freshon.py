@@ -33,6 +33,7 @@ logger.setLevel(logging.DEBUG)
 @db.db_session
 def parse(announcement):
     global name
+
     decolored = utils.strip_irc_color_codes(announcement)
 
     # extract required information from announcement
