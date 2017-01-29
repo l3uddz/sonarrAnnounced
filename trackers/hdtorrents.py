@@ -86,6 +86,6 @@ def init():
     if not tmp:
         return False
 
-    tmp = tmp.replace(' ', '')
+    tmp = tmp.replace(' ', '').rstrip(';')
     cookies = dict(x.split(':') for x in tmp.split(';'))
     return True
