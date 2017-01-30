@@ -77,8 +77,9 @@
                             <td><a href="javascript:notify_sonarr('{{ release.id }}');"><i
                                     class="glyphicon glyphicon-transfer" data-bs-hover-animate="swing"
                                     id="sonarr_notify" title="Notify sonarr"
-                                    announcement="{{ release.id }}"></i></a><a href="{{ release.torrent }}"
-                                                                               style="margin-left:2.5mm;"><i
+                                    announcement="{{ release.id }}"></i></a><a
+                                    href="{{ correct_download(release.torrent) }}"
+                                    style="margin-left:2.5mm;"><i
                                     class="glyphicon glyphicon-download-alt" data-bs-hover-animate="tada"
                                     title="Download torrent"></i></a></td>
                         </tr>

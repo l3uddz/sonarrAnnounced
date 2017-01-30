@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+from urllib.parse import urlparse
 
 import requests
 from flask import Flask
@@ -245,4 +246,13 @@ def utility_processor():
         formatted = utils.human_datetime(timestamp)
         return formatted
 
-    return dict(format_timestamp=format_timestamp)
+    def correct_download(link):
+        formatted = link
+        if 'localhost' in link:
+            parts = urlparse(request.url)
+            if parts.hostname is not None:
+                formatted = formatted.replace('localhost', parts.hostname)
+
+        return formatted
+
+    return dict(format_timestamp=format_timestamp, correct_download=correct_download)
