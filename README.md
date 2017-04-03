@@ -51,3 +51,4 @@ This should automatically install pip3.5 for you
 
 # Installation videos
 1. Debian Jessie: https://youtu.be/oLiGMcUWiB0
+2. Windows: https://youtu.be/UbHwFqkLc0c
