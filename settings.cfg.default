@@ -36,12 +36,6 @@ nick_pass =
 auth_key = 
 torrent_pass = 
 
-[freshon]
-nick = 
-nick_pass = 
-auth_key = 
-torrent_pass =
-
 [hdtorrents]
 nick =
 nick_pass =

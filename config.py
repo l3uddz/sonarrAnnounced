@@ -39,11 +39,6 @@ def init():
     cfg.init('nbl.auth_key', '')
     cfg.init('nbl.torrent_pass', '')
 
-    cfg.init('freshon.nick', '')
-    cfg.init('freshon.nick_pass', '')
-    cfg.init('freshon.auth_key', '')
-    cfg.init('freshon.torrent_pass', '')
-
     cfg.init('hdtorrents.nick', '')
     cfg.init('hdtorrents.nick_pass', '')
     cfg.init('hdtorrents.cookies', '')

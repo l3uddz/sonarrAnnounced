@@ -126,12 +126,6 @@ def trackers():
             cfg['nbl.nick_pass'] = request.form['nbl_nickpassword']
             logger.debug("saved nbl settings")
 
-        if 'freshon_torrentpass' in request.form:
-            cfg['freshon.torrent_pass'] = request.form['freshon_torrentpass']
-            cfg['freshon.nick'] = request.form['freshon_nick']
-            cfg['freshon.nick_pass'] = request.form['freshon_nickpassword']
-            logger.debug("saved freshon settings")
-
         if 'hdtorrents_cookies' in request.form:
             cfg['hdtorrents.cookies'] = request.form['hdtorrents_cookies']
             cfg['hdtorrents.nick'] = request.form['hdtorrents_nick']
