@@ -30,17 +30,11 @@ nick_pass =
 auth_key = 
 torrent_pass = 
 
-[ttn]
+[nbl]
 nick = 
 nick_pass = 
 auth_key = 
 torrent_pass = 
-
-[freshon]
-nick = 
-nick_pass = 
-auth_key = 
-torrent_pass =
 
 [hdtorrents]
 nick =
