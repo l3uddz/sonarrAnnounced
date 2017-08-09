@@ -12,8 +12,8 @@ cfg = config.init()
 ############################################################
 # Tracker Configuration
 ############################################################
-name = "TTN"
-irc_host = "irc.transmithe.net"
+name = "NBL"
+irc_host = "irc.digitalirc.org"
 irc_port = 6667
 irc_channel = "#ttn-announce"
 irc_tls = False
@@ -62,7 +62,7 @@ def parse(announcement):
 
 # Generate torrent link
 def get_torrent_link(torrent_id, torrent_name):
-    torrent_link = "https://transmithe.net/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
+    torrent_link = "https://nebulance.io/torrents.php?action=download&id={}&authkey={}&torrent_pass={}" \
         .format(torrent_id, auth_key, torrent_pass)
     return torrent_link
 
@@ -81,7 +81,7 @@ def init():
     return True
 
 
-# Parse torrent title from message (accounting for TTN video detail parts (WebDL / MKV / 720p / etc....))
+# Parse torrent title from message (accounting for Nebulance video detail parts (WebDL / MKV / 720p / etc....))
 def parse_torrent_title(message):
     rxp = '\[.*?\] (.*?) \[(.*?)\]\s'
     m = re.search(rxp, message)
