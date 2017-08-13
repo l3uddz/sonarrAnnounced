@@ -119,6 +119,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_xspeeds">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">XSpeeds </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="xspeeds_torrentpass">Torrent Pass</label>
+                                <input class="form-control" type="text" name="xspeeds_torrentpass" value="{{ conf['xspeeds.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom:0.2cm;">
+                                <label for="xspeeds_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="xspeeds_nick" value="{{ conf['xspeeds.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="xspeeds_nickpassword">IRC Nickname Password</label>
+                                <input class="form-control" type="password" name="xspeeds_nickpassword" value="{{ conf['xspeeds.nick_pass'] }}" placeholder="Nickname Password" style="margin-bottom:0.2cm;">
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </div>

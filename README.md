@@ -12,6 +12,7 @@ Python script to notify sonarr of tracker announcements from IRC announce channe
 3. IPTorrents
 4. Nebulance
 5. HD-Torrents
+6. XSpeeds
 
 Open to suggestions/pull requests!
 

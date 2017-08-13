@@ -43,5 +43,9 @@ def init():
     cfg.init('hdtorrents.nick_pass', '')
     cfg.init('hdtorrents.cookies', '')
 
+    cfg.init('xspeeds.nick', '')
+    cfg.init('xspeeds.nick_pass', '')
+    cfg.init('xspeeds.torrent_pass', '')
+
     cfg.sync()
     return cfg

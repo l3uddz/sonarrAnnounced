@@ -40,3 +40,8 @@ torrent_pass =
 nick =
 nick_pass =
 cookies =
+
+[xspeeds]
+nick =
+nick_pass =
+torrent_pass =
