@@ -138,6 +138,12 @@ def trackers():
             cfg['xspeeds.nick_pass'] = request.form['xspeeds_nickpassword']
             logger.debug("saved xspeeds settings")
 
+        if 'flro_torrentpass' in request.form:
+            cfg['flro.torrent_pass'] = request.form['flro_torrentpass']
+            cfg['flro.nick'] = request.form['flro_nick']
+            cfg['flro.nick_pass'] = request.form['flro_nickpassword']
+            logger.debug("saved filelist settings")
+
         cfg.sync()
 
     return render_template('trackers.html')

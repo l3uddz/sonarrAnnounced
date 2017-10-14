@@ -47,5 +47,9 @@ def init():
     cfg.init('xspeeds.nick_pass', '')
     cfg.init('xspeeds.torrent_pass', '')
 
+    cfg.init('flro.nick', '')
+    cfg.init('flro.nick_pass', '')
+    cfg.init('flro.torrent_pass', '')
+
     cfg.sync()
     return cfg
