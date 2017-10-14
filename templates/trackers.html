@@ -136,6 +136,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3" style="margin-top:0.3cm;">
+                    <div class="panel panel-info" id="tracker_flro">
+                        <div class="panel-heading">
+                            <h3 class="text-center panel-title">FileList </h3></div>
+                        <div class="panel-body">
+                            <form method="post" target="_self">
+                                <label for="flro_torrentpass">Torrent Pass</label>
+                                <input class="form-control" type="text" name="flro_torrentpass" value="{{ conf['flro.torrent_pass'] }}" placeholder="Torrent Pass" style="margin-bottom$
+                                <label for="flro_nick">IRC Nickname</label>
+                                <input class="form-control" type="text" name="flro_nick" value="{{ conf['flro.nick'] }}" placeholder="Nickname" style="margin-bottom:0.2cm;">
+                                <label for="flro_nickpassword">IRC Nickname Password</label>
+                                <input class="form-control" type="password" name="flro_nickpassword" value="{{ conf['flro.nick_pass'] }}" placeholder="Nickname Password" style="margin$
+                                <button class="btn btn-primary btn-sm pull-right" type="submit">Save </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </div>

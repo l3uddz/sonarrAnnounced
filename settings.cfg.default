@@ -45,3 +45,8 @@ cookies =
 nick =
 nick_pass =
 torrent_pass =
+
+[flro]
+nick =
+nick_pass =
+torrent_pass =
