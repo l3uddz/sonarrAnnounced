@@ -15,7 +15,7 @@ cfg = config.init()
 name = "NBL"
 irc_host = "irc.digitalirc.org"
 irc_port = 6667
-irc_channel = "#ttn-announce"
+irc_channel = "#nbl-announce"
 irc_tls = False
 irc_tls_verify = False
 
