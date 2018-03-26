@@ -1,3 +1,20 @@
+Some issues with Pydle and tornado perhaps? tring some different requirements, I saw pydle was updated to grab a specific version of tornado....  so I'm trying this fork to play with my docker container.
+```
+Traceback (most recent call last):
+  File "/config/bot.py", line 6, in <module>
+    import manager
+  File "/config/manager.py", line 6, in <module>
+    import irc
+  File "/config/irc.py", line 4, in <module>
+    import pydle
+  File "/usr/lib/python3.5/site-packages/pydle/__init__.py", line 1, in <module>
+    from . import async, connection, protocol, client, features
+  File "/usr/lib/python3.5/site-packages/pydle/async.py", line 17, in <module>
+    class Future(tornado.concurrent.TracebackFuture):
+AttributeError: module 'tornado.concurrent' has no attribute 'TracebackFuture'
+```
+
+
 # sonarrAnnounced
 
 Python script to notify sonarr of tracker announcements from IRC announce channels. 
