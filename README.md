@@ -2,6 +2,15 @@
 
 Python script to notify sonarr of tracker announcements from IRC announce channels. 
 
+# Announcement
+
+This project is no longer being maintained.
+
+You can use the rewritten version in Golang with support for all trackers that autodl supports:
+
+https://gitlab.com/cloudb0x/trackarr
+
+
 ## Requirements
 1. Python 3.5.2 or newer
 2. requirements.txt modules
