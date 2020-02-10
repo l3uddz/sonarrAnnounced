@@ -4,7 +4,7 @@ pluginbase==0.5
 pony==0.7.1
 profig==0.4.1
 pydle
-requests==2.12.4
+requests==2.20.0
 tornado==4.5.3
 Unidecode==0.04.20
 pythreadworker==0.6.0
