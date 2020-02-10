@@ -1,4 +1,4 @@
-Flask==0.12
+Flask==1.0
 Flask_HTTPAuth==3.2.1
 pluginbase==0.5
 pony==0.7.1
